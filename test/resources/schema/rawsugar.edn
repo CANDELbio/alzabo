@@ -1,0 +1,63 @@
+{:version "1.0"
+ :kinds
+ {:project
+  {:fields
+   {:name {:type :string
+           :unique :identity} 
+    :sheet {:type :sheet
+            :component true
+            :cardinality :many}
+    :files {:type :file
+            :component true
+            :cardinality :many}
+    :history {:type :operation
+              :component true
+              :cardinality :many}}}
+  :sheet
+  {:fields
+   {:name {:type :string}
+    :file {:type :file  
+           :component true
+           :cardinality :many}
+    :columns {:type :column
+              :component true
+              :cardinality :many}
+    :rows {:type :row
+           :component true
+           :cardinality :many}
+    :rowtype {:type :keyword}
+    }}
+  :column
+  {:fields
+   {:name {:type :string}
+    :type {:type :keyword}}}
+  :row
+  {:fields {:cells {:type :cell
+                    :component true
+                    :cardinality :many}
+            :files {:type :file
+                    :cardinality :many}
+            }}
+  :cell
+  {:fields {:column {:type :column
+                     :required true}
+            :value_string {:type :string }
+            :value_long {:type :long}
+            :value_float {:type :float}
+            :value_instant {:type :instant} 
+            :value_boolean {:type :boolean}
+            :value_ref {:type :ref}        
+            }}
+  :file
+  {:fields
+   {:pathname {:type :string}            
+    :extension {:type :string}
+    :location {:type :string :unique :identity} 
+    :hash {:type :string}                  
+    }}
+  :operation
+  {:fields {:cmd {:type :keyword}
+            :parameters {:type :string}
+            :agent {:type :string}}
+   }}
+ }

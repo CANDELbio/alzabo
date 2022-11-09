@@ -1,0 +1,88 @@
+[
+  {:study
+   {:fields {:name {:type :string
+                    :unique :identity
+                    :required true}
+             :cohorts {:type :cohort
+                       :component true
+                       :cardinality :many}}}
+   :cohort
+   {:fields {:name {:type :string
+                    :required true}
+             :kit-types {:type :kit-type
+                         :component true
+                         :cardinality :many}}}
+   :kit-type
+   {:fields {:min-id {:type :long
+                      :required true}
+             :max-id {:type :long
+                      :required true}
+             :sample-types {:type :sample-type
+                            :component true
+                            :cardinality :many}
+             :form-types {:type :form-type
+                          :component true
+                          :cardinality :many}}}
+   :sample-type
+   {:fields {:name {:type :string
+                    :required true}
+             :id-suffix {:type :string
+                         :required true}
+             :ships-with-kit {:type :boolean
+                              :required true}}}
+   :form-type
+   {:fields {:name {:type :string
+                    :required true}
+             :fields {:type :string}
+             :timepoints {:type :timepoint
+                          :component true
+                          :cardinality :many}}}
+   :timepoint
+   {:fields {:name {:type :string
+                    :required true}}}
+   :kit
+   {:fields {:kit-id {:type :string
+                      :unique :identity
+                      :required true}
+             :patient-id {:type :string
+                          :required true}
+             :collection-timestamp {:type :instant
+                                    :required true}
+             :person-processing {:type :string
+                                 :required true}
+             :comments {:type :string}
+             :kit-type {:type :kit-type
+                        :cardinality :one
+                        :required true}
+             :samples {:type :sample
+                       :component true
+                       :cardinality :many}
+             :form-values {:type :form-value
+                           :component true
+                           :cardinality :many}}}
+   :sample
+   {:fields {:sample-id {:type :string
+                         :unique :identity
+                         :required true}
+             :status {:type :string
+                      :required true}
+             :sample-type {:type :sample-type
+                           :cardinality :one
+                           :required true}
+             :kit {:type :kit
+                   :component true
+                   :cardinality :one
+                   :required true}}}
+   :form-value
+   {:fields {:form-type {:type :form-type
+                         :cardinality :one
+                         :required true}
+             :field {:type :string
+                     :required true}
+             :value_string {:type :string}}}
+   :shipment
+   {:fields {:airway-bill {:type :string
+                           :required :true}
+             :samples {:type :sample
+                       :cardinality :many}}}}
+ []]

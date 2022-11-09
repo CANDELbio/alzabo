@@ -1,0 +1,69 @@
+[{:db/ident         :kind/name
+   :db/valueType     :db.type/keyword
+   :db/unique        :db.unique/identity
+   :db/cardinality   :db.cardinality/one
+   :db/doc           "Name of a kind of entity in the system"}
+
+  {:db/ident         :kind/attr
+   :db/valueType     :db.type/keyword
+   :db/cardinality   :db.cardinality/one
+   :db/doc           "Distinguishing attribute of this kind of entity, must be a domain schema attribute"}
+
+  {:db/ident         :kind/context-id
+   :db/valueType     :db.type/keyword
+   :db/cardinality   :db.cardinality/one
+   :db/doc           "Locally identifying attribute, must be a domain schema attribute"}
+
+  {:db/ident         :kind/parent
+   :db/valueType     :db.type/keyword
+   :db/cardinality   :db.cardinality/one
+   :db/doc           ":kind/name of the parent (containing) entity"}
+
+  {:db/ident         :kind/need-uid
+   :db/valueType     :db.type/keyword
+   :db/cardinality   :db.cardinality/one
+   :db/doc           "attr name that stores the synthetic UID for this kind of entity"}
+
+  {:db/ident         :kind/synthetic-attr-name
+   :db/valueType     :db.type/keyword
+   :db/cardinality   :db.cardinality/one
+   :db/doc           "Target name of the attribute that holds the synthesized value"}
+
+  ;; Synthetic Attribute Components are ordered via a Datomic component
+  ;;
+  {:db/ident         :kind/synthetic-attr-components
+   :db/valueType     :db.type/ref
+   :db/cardinality   :db.cardinality/many
+   :db/isComponent   true
+   :db/doc           "Describes the attribute components of the synthesized attribute values."}
+
+  {:db/ident         :kind.synthetic-attr-components/idx
+   :db/valueType     :db.type/long
+   :db/cardinality   :db.cardinality/one
+   :db/doc           "The order that a component appears in the synthesized value"}
+
+  {:db/ident         :kind.sythetic-attr-components/name
+   :db/valueType     :db.type/keyword
+   :db/cardinality   :db.cardinality/one
+   :db/doc           "Target name of the component attribute used to synthesize the value"}
+
+
+  {:db/ident         :kind/allow-create-on-import
+   :db/valueType     :db.type/boolean
+   :db/cardinality   :db.cardinality/one
+   :db/doc           "tag indicating that this particular ref data can be created during an import"}
+
+  {:db/ident         :kind/ref-data
+   :db/valueType     :db.type/boolean
+   :db/cardinality   :db.cardinality/one
+   :db/doc           "tag indicating that this kind of entity is ref-data"}
+
+  {:db/ident         :ref/from
+   :db/valueType     :db.type/keyword
+   :db/cardinality   :db.cardinality/one
+   :db/doc           "source of a ref attribute, must be a :kind/name"}
+
+  {:db/ident         :ref/to
+   :db/valueType     :db.type/keyword
+   :db/cardinality   :db.cardinality/one
+   :db/doc           "target of a ref attribute, must be a :kind/name"}]

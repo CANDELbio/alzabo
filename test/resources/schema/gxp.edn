@@ -1,0 +1,24 @@
+{:version "1.0"
+ :kinds
+ {:gene
+  {:fields
+   {:name
+    {:type :string
+     :cardinality :one
+     :unique :identity}}}
+  :experiment
+  {:fields
+   {:name
+    {:type :string
+     :cardinality :one
+     :unique :identity}
+    :results
+    {:type [:gene :float]
+     :cardinality :many
+     :doc "A heterogenous tuple-valued field"
+     }
+    :uid
+    {:type {:* :string}
+     :doc "A homogenous tuple-valued field"
+     }}
+   }}}

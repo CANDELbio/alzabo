@@ -1,0 +1,10 @@
+;;; This is config for CANDEL. Assumes that Pret is available as a sibling directory to Alzabo
+
+{:source :candel
+ :pret-path "../pret"
+ :output-path "resources/public/schema/{version}/" 
+ :edge-labels? false
+ :reference? true
+ :main-color "lightsteelblue"
+ :reference-color "moccasin"
+ }

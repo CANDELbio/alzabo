@@ -1,0 +1,9 @@
+{:source :candel
+ :pret-path "test/resources/pretense"
+ :output-path "resources/public/schema/{version}/" 
+ :reference? true
+ :main-color "moccasin"
+ :reference-color "lightsteelblue"
+ :dev? false
+ }
+
