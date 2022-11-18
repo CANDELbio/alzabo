@@ -62,6 +62,7 @@
           :else (do (println "No enum found:" {:kind kind :field field})
                    :ref))))
 
+;;; This does most of the work of translating between datomic and alzabo formats
 (defn annotated-field
   [kind field field-index enums]
   (let [namespaced (keyword (name kind) (name field))
@@ -86,7 +87,9 @@
       :cardinality (ns->key (get info :db/cardinality))
       :unique (ns->key (get info :db/unique))
       :component (get info :db/isComponent)
-      :doc (get info :db/doc)}]))
+      :doc (get info :db/doc)
+      :attribute namespaced
+      }]))
 
 (defn read-enums
   "Returns [enums version], where enums is a map of enum names (keyword) to list of possible values"

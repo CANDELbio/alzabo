@@ -6,10 +6,11 @@
 (def the-config (atom nil))
 
 (defn set-config!
-  [file]
-  (reset! the-config (if file
-                       (edn/read-string (slurp file))
-                       nil)))
+  [config]                              ;filename or map
+  (let [config (if (string? config)
+                 (edn/read-string (slurp config))
+                 config)]
+    (reset! the-config config)))
 
 (defn set!
   [att value]

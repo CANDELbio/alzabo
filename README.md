@@ -32,6 +32,7 @@ A field definition is a map with attributes:
 `:cardinality` Either `:one` (default) or `:many`
 `:unique` Either `:identity` or `:value`, see [Datomic doc](https://docs.datomic.com/on-prem/schema.html#operational-schema-attributes) for details.
 `:unique-id` (deprecated) `true` means the same as `:unique :identity`
+ `:attribute` the datomic or sparql attribute corresponding to the field 
 
 The defined primitives are `#{:string :boolean :float :double :long :bigint :bigdec :instant :keyword :uuid}`. 
 
@@ -48,7 +49,7 @@ To generate documentation, you need graphviz installed. On the Mac, you can do t
 
 Prerequisites:
 - [leiningen](https://leiningen.org/)
-- [Pret](https://github.com/parkerici/pret) installed as a sibling to Alzabo (TODO update to point to opensource version)
+- [Pret](https://github.com/CANDELbio/pret) installed as a sibling to Alzabo (TODO update to point to opensource version)
 
     $ lein launch
 

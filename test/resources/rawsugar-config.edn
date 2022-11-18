@@ -1,0 +1,8 @@
+{:source "test/resources/schema/rawsugar.edn"
+ :output-path "target/rawsugar/"
+ :reference? true
+ :main-color "moccasin"
+ :reference-color "lightsteelblue"
+ :dev? false
+ }
+

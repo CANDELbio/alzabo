@@ -59,9 +59,9 @@
 
 ;;; Split out for testing
 (defn -main-guts
-  [config command args]
+  [config command]
   (config/set-config! config)
-  (do-command command args)
+  (do-command command {})
   )
   
 ;;; Note: this isn't currently used, all the params are in config
@@ -71,5 +71,5 @@
 
 (defn -main
   [config command & args]
-  (-main-guts config command (keywordize-keys (apply hash-map args)))
+  (-main-guts config command)
   (System/exit 0))
