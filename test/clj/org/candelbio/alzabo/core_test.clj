@@ -1,5 +1,5 @@
-(ns org.parkerici.alzabo.core-test
-  (:require [org.parkerici.alzabo.core :as sut]
+(ns org.candelbio.alzabo.core-test
+  (:require [org.candelbio.alzabo.core :as sut]
             [me.raynes.fs :as fs]
             [clojure.test :refer :all]))
 

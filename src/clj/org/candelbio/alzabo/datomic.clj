@@ -1,6 +1,6 @@
-(ns org.parkerici.alzabo.datomic
-  (:require [org.parkerici.multitool.core :as u]
-            [org.parkerici.alzabo.schema :as alzs]
+(ns org.candelbio.alzabo.datomic
+  (:require [org.candelbio.multitool.core :as u]
+            [org.candelbio.alzabo.schema :as alzs]
             ))
 
 ;;; Write out a Datomic schema from Alzabo schema

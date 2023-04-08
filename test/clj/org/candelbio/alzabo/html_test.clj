@@ -1,9 +1,9 @@
-(ns org.parkerici.alzabo.html-test
+(ns org.candelbio.alzabo.html-test
   (:require [clojure.test :refer :all]
-            [org.parkerici.alzabo.schema :as schema]
-            [org.parkerici.alzabo.config :as config]
+            [org.candelbio.alzabo.schema :as schema]
+            [org.candelbio.alzabo.config :as config]
             [me.raynes.fs :as fs]
-            [org.parkerici.alzabo.html :refer :all]))
+            [org.candelbio.alzabo.html :refer :all]))
 
 ;;; TODO this machinery should be for all tests
 (def test-config "test/resources/test-config.edn")
