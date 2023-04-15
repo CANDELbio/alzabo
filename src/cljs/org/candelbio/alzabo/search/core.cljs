@@ -65,7 +65,8 @@
 
 (defn highlight-name
   [name typed]
-  (into [] (cons :span (re-substitute (re-pattern (str "(?i)\\b" typed)) name (fn [match] [:b match] )))))
+  (when name
+    (into [] (cons :span (re-substitute (re-pattern (str "(?i)\\b" typed)) name (fn [match] [:b match] ))))))
 
 ;;; Also used for enum links, so slightly misnamed
 (defn kind-link

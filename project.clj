@@ -6,6 +6,7 @@
   :dependencies [;; Clojure 
                  [org.clojure/clojure "1.10.0"]
                  [hiccup "1.0.5"]
+                 [clj-commons/clj-yaml "0.7.0"]
                  [me.raynes/fs "1.4.6"]
                  ;; Clojurescript
                  [org.clojure/clojurescript "1.10.520"]
