@@ -17,8 +17,9 @@
   (swap! the-config assoc att value))
 
 (defn config
-  ([key] (get @the-config key))
-  ([] @the-config ))
+  [& keys]
+  (assert @the-config "Config not set")
+  (get-in @the-config keys))
 
 ;;; → multitool – change to deal with keyword bindings
 (defn expand-template-string

@@ -1,7 +1,9 @@
 (ns org.candelbio.alzabo.schema
   (:require [clojure.spec.alpha :as s]))
 
-(def primitives #{:long :float :string :boolean :instant :keyword})
+(def primitives #{:long :float :string :boolean :instant :keyword ;Datomic
+                  :number                                         ;other
+                  })
 
 ;;; Schema spec
 
@@ -15,8 +17,8 @@
 
 ;;; I want to say that ONLY these keys are allowed, which would catch some
 ;;; errors. But apparently that is unClojurish or something?
-(s/def ::field (s/keys :req-un [::type]
-                       :opt-un [::cardinality ::doc ::unique ::index ::attribute]))
+(s/def ::field (s/keys :req-un []
+                       :opt-un [::type ::cardinality ::doc ::unique ::index ::attribute]))
 
 (s/def ::fields (s/map-of keyword? ::field))
 

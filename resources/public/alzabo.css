@@ -58,3 +58,9 @@ div, h1, input {
 	max-width: 1024px;
 	position: relative;
 }
+
+.description {
+  border: 1px solid gray;
+  background-color: #f2f2f2;
+  padding: 10px;
+}

@@ -20,6 +20,7 @@
   (html [:a {:href (kind-url kind)}
          kind]))
 
+;;; TODO links in descriptions
 (defn- kind-html
   [kind]
   (if (keyword? kind)
@@ -64,12 +65,12 @@
 ;;; Schema is actually just the kinds structure
 (defn- kind->html
   [kind schema]
-  (let [kind-schema (get schema kind)
-        unique-id (get kind-schema :unique-id)
-        label (get kind-schema :label)]
+  (let [{:keys [unique-id label fields description]} (get schema kind)]
     (html
      (backlink)
      [:h1 (name kind)]
+     (when description
+       [:div {:class "description"} description])
      [:table {:class "table"}
       [:tr
        [:th "attribute"]
@@ -77,7 +78,7 @@
        [:th "cardinality"]
        [:th "unique"]
        [:th "description"]]
-      (for [[field props] (into (sorted-map) (get kind-schema :fields ))]
+      (for [[field props] (into (sorted-map) fields)]
         (field->html field props))]
      (when unique-id
        [:div
@@ -141,10 +142,11 @@
 
 (defn- index->html
   [{:keys [kinds enums version title] :as schema} tag-version]
+  (prn :config (config/config))
   (let [[nonreference-kinds reference-kinds]
         (u/separate #(nil? (get-in kinds [% :reference?])) (keys kinds))]
     (html
-     [:h1 title " Schema " version]
+     [:h1 title " " version]
      [:div#app]
      [:div.container
       [:div.row
@@ -161,11 +163,12 @@
         (when (config/config :reference?)
           [:div
            [:h3 {:style (header-style (config/config :reference-color))}
-            "reference"]
+            (or (config/config :reference? 0) "reference")] ;TODO OK, kludgy
            [:ul
             (for [kind (sort reference-kinds)]
               (html [:li (kind-html kind)]))]
-           [:h3 {:style (header-style (config/config :main-color))} "experimental"]
+           [:h3 {:style (header-style (config/config :main-color))}
+            (or (config/config :reference? 1) "experimental")]
            ])
         [:ul
          (for [kind (sort nonreference-kinds)]
