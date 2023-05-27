@@ -2,11 +2,18 @@
 
 Alzabo does a number of different tasks centered around a simple schema format for graph databases.
 
+Core:
 - Defines an .edn schema format, with semantics similar to RDF.
-- Tool to convert the [CANDEL schema](https://github.com/ParkerICI/pret/tree/master/resources/schema) into Alzabo format
-- Tool to generate Datomic schemas from Alzabo format
 - Tool to generate HTML documentation from Alzabo schemas
 - A Clojurescript applet to do autocompletion over Alzabo schemas (appears as part of HTML doc)
+
+Import:
+- Tool to convert the [CANDEL schema](https://github.com/candelbio/pret/tree/master/resources/schema) into Alzabo schema
+- Tool to convert OpenAPI YAML format into Alzabo schemas
+
+Export:
+- Tool to generate Datomic schemas from Alzabo format
+
 
 ## Schema format
 
@@ -44,6 +51,13 @@ To generate documentation, you need graphviz installed. On the Mac, you can do t
 
 
 ## Usage
+
+### Install as local library
+
+    lein with-profile library, prod install
+
+TODO send to clojars
+
 
 ### Generate and view CANDEL schema
 

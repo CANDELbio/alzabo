@@ -183,7 +183,7 @@
        ;; See org.candelbio.alzabo.search.core/get-schema
        [:div#aschema {:style (style-arg {:display "none"})}
         (str schema)]
-       [:script {:src "js/client.js"}]
+       [:script {:src "client.js"}]
        [:script "window.onload = function() { org.candelbio.alzabo.search.core.run(); }"]
        ]]
      )))
@@ -274,29 +274,33 @@
   "Generate HTML docs for a schema, including .svg and related files. Arguments are self-explanatory."
   [{:keys [kinds enums version title] :as schema} ]
 
-    (clear-directory (output-file ""))
-    ;; Write out the schema itself – used by autocomplete, enflame, etc
-    (with-open [o (clojure.java.io/writer (output-file "schema.edn"))]
-      (pp/pprint schema o))
-    (doseq [kind (keys kinds)]
-      (html-out (str (name kind) ".html")
-                (format "%s - %s Schema" (name kind) title)
-                (kind->html kind kinds)
-                version))
-    (doseq [enum (keys enums)]
-      (html-out (str (name enum) ".html")
-                (format "%s - Schema" (name enum) title)
-                (enum->html enum (get enums enum))
-                version))
-    (write-graphviz schema (output-file "schema.dot"))
-    (html-out "index.html"
-              (format "%s - Schema - index" title)
-              (index->html schema version)
-              version)
-    (make-link (output-file "js") "../../js") ;argh. Necessary apparently, net infrastructure no longer lets .. work
-    (make-link (output-file "alzabo.css") "../../alzabo.css")
-    nil
-    )
+  (clear-directory (output-file ""))
+  ;; Write out the schema itself – used by autocomplete, enflame, etc
+  (with-open [o (clojure.java.io/writer (output-file "schema.edn"))]
+    (pp/pprint schema o))
+  (doseq [kind (keys kinds)]
+    (html-out (str (name kind) ".html")
+              (format "%s - %s Schema" (name kind) title)
+              (kind->html kind kinds)
+              version))
+  (doseq [enum (keys enums)]
+    (html-out (str (name enum) ".html")
+              (format "%s - Schema" (name enum) title)
+              (enum->html enum (get enums enum))
+              version))
+  (write-graphviz schema (output-file "schema.dot"))
+  (html-out "index.html"
+            (format "%s - Schema - index" title)
+            (index->html schema version)
+            version)
+  #_ (make-link (output-file "js") "../../js") ;argh. Necessary apparently, net infrastructure no longer lets .. work
+  #_ (make-link (output-file "alzabo.css") "../../alzabo.css")
+  (io/copy (io/reader (io/resource "public/alzabo.css"))
+           (io/file (output-file "alzabo.css")))
+  (io/copy (io/reader (io/resource "public/js/client.js"))
+           (io/file (output-file "client.js")))
+  nil
+  )
 
 ;;; TODO class descriptions (Should be added to model in pret)
 

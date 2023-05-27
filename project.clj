@@ -1,4 +1,4 @@
-(defproject org.candelbio/alzabo "1.0.0"
+(defproject org.candelbio/alzabo "1.0.1"
   :description "Semantic schema format and tools, for Datomic and other uses."
   :url "http://github.com/candelbio/alzabo"
   :license {:name "Apache 2 License"
@@ -27,8 +27,11 @@
                       ]}
   :main org.candelbio.alzabo.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all
+  :profiles {:library {:prep-tasks ["compile" ["cljsbuild" "once"]]
                        }
+             :uberjar {:aot :all
+                       :prep-tasks ["compile" ["cljsbuild" "once" "prod"]]
+                       :omit-source true}
              :dev {:dependencies [[cider/piggieback "0.3.10"]
                                   [day8.re-frame/re-frame-10x "0.3.3"]
                                   [figwheel-sidecar "0.5.16"]

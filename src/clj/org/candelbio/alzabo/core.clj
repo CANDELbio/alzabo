@@ -58,7 +58,7 @@
     ))
 
 ;;; Split out for testing
-(defn -main-guts
+(defn main-guts
   [config command]
   (config/set-config! config)
   (do-command command {})
@@ -71,5 +71,5 @@
 
 (defn -main
   [config command & args]
-  (-main-guts config command)
+  (main-guts config command)
   (System/exit 0))
