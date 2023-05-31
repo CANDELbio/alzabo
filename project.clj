@@ -30,7 +30,7 @@
   :profiles {:library {:prep-tasks ["compile" ["cljsbuild" "once"]]
                        }
              :uberjar {:aot :all
-                       :prep-tasks ["compile" ["cljsbuild" "once" "prod"]]
+                       :prep-tasks ["compile" ["cljsbuild" "once"]]
                        :omit-source true}
              :dev {:dependencies [[cider/piggieback "0.3.10"]
                                   [day8.re-frame/re-frame-10x "0.3.3"]

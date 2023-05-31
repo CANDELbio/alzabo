@@ -142,7 +142,6 @@
 
 (defn- index->html
   [{:keys [kinds enums version title] :as schema} tag-version]
-  (prn :config (config/config))
   (let [[nonreference-kinds reference-kinds]
         (u/separate #(nil? (get-in kinds [% :reference?])) (keys kinds))]
     (html
@@ -208,37 +207,40 @@
       (throw (Exception. (str "Bad result from shell" res))))
     res))
 
-;;; To use this, do 'brew install graphviz' first (on Mac)
-(def dot-command "/opt/homebrew/bin/dot")
+;;; Requires installation of graphviz ('brew install graphviz' on Mac)
+(def dot-command "dot")
 
-;;; Font should be available in Docker build image
 (def graph-font "Helvetica")
 
 ;;; TODO if this gets any more complex, consider replacing with https://github.com/daveray/dorothy
 (defn- write-graphviz
   [{:keys [kinds enums] :as schema} dot-file]
   (let [clean (fn [kind] (s/replace (name kind) \- \_))
-        attributes (fn [m & [sep]]
-                 ;; For some reason graph attributes need a different separator
-                 (s/join (or sep ",") (map (fn [[k v]] (format "%s=%s" (name k) (pr-str v))) m)))]
+        attributes
+        (fn [m & [sep]]
+          ;; For some reason graph attributes need a different separator
+          (s/join (or sep ",") (map (fn [[k v]] (format "%s=%s" (name k) (pr-str v))) m)))]
     (println "Writing " dot-file)
     (with-open [wrtr (clojure.java.io/writer dot-file)]
       (binding [*out* wrtr]
         (println "digraph schema {")
         (println (attributes
                   {:rankdir "LR"
-                   :size "14,20"}
+                   :size "14,20"
+                   }
                   ";"))
         (doseq [kind (keys kinds)]
-          (println (format "%s [%s];"
-                           (clean kind)
-                           (attributes {:URL (kind-url kind)
-                                        :label (name kind)
-                                        :style "filled"
-                                        :fillcolor (if (get-in kinds [kind :reference?])
-                                                     (config/config :reference-color)
-                                                     (config/config :main-color))
-                                        :fontname graph-font})))
+          (let [{:keys [description reference?]} (get-in schema [:kinds kind])]
+            (println (format "%s [%s];"
+                             (clean kind)
+                             (attributes {:URL (kind-url kind)
+                                          :label (name kind)
+                                          :tooltip (or description (name kind))
+                                          :style "filled"
+                                          :fillcolor (if reference?
+                                                       (config/config :reference-color)
+                                                       (config/config :main-color))
+                                          :fontname graph-font}))))
           (doseq [[label ref cardinality] (kind-relations kind schema)]
             (println (format "%s -> %s [%s];"
                              (clean kind)
