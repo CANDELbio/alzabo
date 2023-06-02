@@ -1,6 +1,9 @@
 (ns org.candelbio.alzabo.schema
   (:require [clojure.spec.alpha :as s]))
 
+;;; TODO need a required/optional flag or equivalent.
+;;; TODO Schema validation isn't working, it didn't detect when I was stupidly using :description instead of :doc
+
 (def primitives #{:long :float :string :boolean :instant :keyword ;Datomic
                   :number                                         ;other
                   })

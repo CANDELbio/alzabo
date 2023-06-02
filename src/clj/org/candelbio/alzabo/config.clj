@@ -1,5 +1,6 @@
 (ns org.candelbio.alzabo.config
   (:require [clojure.edn :as edn]
+            [me.raynes.fs :as fs]
             [org.candelbio.multitool.core :as u])
   )
 
