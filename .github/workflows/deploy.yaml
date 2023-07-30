@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    # Run on macos because graphviz has some kind of size bug on Ubuntu
+    runs-on: macos-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      # TODO Macos only
+      - name: Install lein
+        run: brew install leiningen
+
+      - name: Install Graphviz
+        uses: tlylt/install-graphviz@v1.0.0
+
+      - name: Run Alzabo
+        run: lein run
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v1.0.8
+        with:
+          path: output
+          retention-days: 14
+
+    # Deploy job
+  deploy:
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+
+      
