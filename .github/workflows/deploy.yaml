@@ -26,7 +26,10 @@ jobs:
         uses: tlylt/install-graphviz@v1.0.0
 
       - name: Install Pret
-        run: git clone git@github.com:CANDELbio/pret.git
+        uses: actions/checkout@v2
+        with:
+          repository: CANDELbio/pret
+          path: pret
 
       - name: Run Alzabo
         run: lein run resources/candel-config.edn documentation
