@@ -31,6 +31,9 @@ jobs:
           repository: CANDELbio/pret
           path: pret
 
+      - name: Build Alzabo cljs
+        run: lein cljsbuild once
+
       - name: Run Alzabo
         run: lein run resources/candel-config.edn documentation
 
