@@ -3,6 +3,10 @@ div, h1, input {
     font-family: 'Lato', sans-serif;
  }
 
+.container {
+  max-width: revert;		/* use the full width */
+}
+
 /* Popup container */
 .popup {
   position: absolute;

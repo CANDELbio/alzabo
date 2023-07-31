@@ -32,7 +32,7 @@ jobs:
           path: pret
 
       - name: Build Alzabo cljs
-        run: lein cljsbuild once
+        run: lein with-profile +prod,-dev cljsbuild once
 
       - name: Run Alzabo
         run: lein run resources/candel-config.edn documentation
