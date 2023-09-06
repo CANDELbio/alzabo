@@ -1,6 +1,6 @@
-(ns org.parkerici.alzabo.datomic-test
-  (:require [org.parkerici.alzabo.datomic :refer :all]
-            [org.parkerici.alzabo.schema :as schema]
+(ns org.candelbio.alzabo.datomic-test
+  (:require [org.candelbio.alzabo.datomic :refer :all]
+            [org.candelbio.alzabo.schema :as schema]
             [clojure.test :refer :all]
             ))
 

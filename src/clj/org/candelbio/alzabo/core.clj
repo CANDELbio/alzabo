@@ -1,11 +1,11 @@
-(ns org.parkerici.alzabo.core
-  (:require [org.parkerici.alzabo.candel :as candel]
-            [org.parkerici.alzabo.schema :as schema]
-            [org.parkerici.alzabo.config :as config]
-            [org.parkerici.alzabo.html :as html]
-            [org.parkerici.alzabo.output :as output]
-            [org.parkerici.alzabo.datomic :as datomic]
-            [org.parkerici.multitool.core :as u])
+(ns org.candelbio.alzabo.core
+  (:require [org.candelbio.alzabo.candel :as candel]
+            [org.candelbio.alzabo.schema :as schema]
+            [org.candelbio.alzabo.config :as config]
+            [org.candelbio.alzabo.html :as html]
+            [org.candelbio.alzabo.output :as output]
+            [org.candelbio.alzabo.datomic :as datomic]
+            [org.candelbio.multitool.core :as u])
   (:gen-class))
 
 ;;; Note: CLI use is somewhat deprecated; it's expected that Alzabo will be used
