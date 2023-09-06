@@ -13,10 +13,12 @@
           (str/split (name key) #"-")))
 
 (defn add-def-text [dict text def]
-  (reduce (fn [dict word]
-            (add-def-word dict word def))
-          dict
-          (nlp/tokens text)))
+  (if text
+    (reduce (fn [dict word]
+              (add-def-word dict word def))
+            dict
+            (nlp/tokens text))
+    dict))
 
 (defn kind-dict [kinds dict]
   (reduce (fn [dict [kindname kinddef]]

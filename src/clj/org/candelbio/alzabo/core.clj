@@ -5,7 +5,9 @@
             [org.candelbio.alzabo.html :as html]
             [org.candelbio.alzabo.output :as output]
             [org.candelbio.alzabo.datomic :as datomic]
-            [org.candelbio.multitool.core :as u])
+            [org.candelbio.multitool.core :as u]
+            [me.raynes.fs :as fs]
+            )
   (:gen-class))
 
 ;;; Note: CLI use is somewhat deprecated; it's expected that Alzabo will be used
@@ -21,7 +23,7 @@
   (let [schema
         (if (= (config/config :source) :candel)
           (candel/read-schema)
-          (schema/read-schema (config/config :source)))]
+          (schema/read-schema (fs/file (config/config :source))))]
     (config/set! :version (:version schema))
     schema))
 
@@ -58,7 +60,7 @@
     ))
 
 ;;; Split out for testing
-(defn -main-guts
+(defn main-guts
   [config command]
   (config/set-config! config)
   (do-command command {})
@@ -71,5 +73,5 @@
 
 (defn -main
   [config command & args]
-  (-main-guts config command)
+  (main-guts config command)
   (System/exit 0))

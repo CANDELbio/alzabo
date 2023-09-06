@@ -1,5 +1,6 @@
 (ns org.candelbio.alzabo.config
   (:require [clojure.edn :as edn]
+            [me.raynes.fs :as fs]
             [org.candelbio.multitool.core :as u])
   )
 
@@ -17,8 +18,9 @@
   (swap! the-config assoc att value))
 
 (defn config
-  ([key] (get @the-config key))
-  ([] @the-config ))
+  [& keys]
+  (assert @the-config "Config not set")
+  (get-in @the-config keys))
 
 ;;; → multitool – change to deal with keyword bindings
 (defn expand-template-string
@@ -35,8 +37,11 @@
 
 (defn output-path
   [filename]
-  (str (expand-template-string (config :output-path) (config))
-       filename))
+  (str
+   ;; This rigamarole lets you use relative paths and fs/with-cwd
+   (fs/file
+    (str (expand-template-string (config :output-path) (config))
+         filename))))
 
 
 

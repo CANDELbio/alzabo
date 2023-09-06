@@ -6,6 +6,7 @@
   :dependencies [;; Clojure 
                  [org.clojure/clojure "1.10.0"]
                  [hiccup "1.0.5"]
+                 [clj-commons/clj-yaml "0.7.0"]
                  [me.raynes/fs "1.4.6"]
                  ;; Clojurescript
                  [org.clojure/clojurescript "1.10.520"]
@@ -26,8 +27,11 @@
                       ]}
   :main org.candelbio.alzabo.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all
+  :profiles {:library {:prep-tasks ["compile" ["cljsbuild" "once"]]
                        }
+             :uberjar {:aot :all
+                       :prep-tasks ["compile" ["cljsbuild" "once"]]
+                       :omit-source true}
              :dev {:dependencies [[cider/piggieback "0.3.10"]
                                   [day8.re-frame/re-frame-10x "0.3.3"]
                                   [figwheel-sidecar "0.5.16"]

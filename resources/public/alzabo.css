@@ -1,10 +1,32 @@
-
 div, h1, input {
     font-family: 'Lato', sans-serif;
  }
 
+.header {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-evenly;
+  padding: 20px;
+  background-color: #f2f2f2;
+}
+
+.explanation {
+  width: 260px;
+  position: absolute; 		/* makes it float in upper-left */
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid gray;
+}
+
 .container {
-  max-width: revert;		/* use the full width */
+  margin-left: 20px;
+  margin-right: 20px;
+  max-width: initial;		/* also try revert */
+}
+
+.footer {
+  padding: 20px;
+  background-color: #f2f2f2;
 }
 
 /* Popup container */
@@ -61,4 +83,10 @@ div, h1, input {
 	width: 100%; 
 	max-width: 1024px;
 	position: relative;
+}
+
+.kind_doc {
+  border: 1px solid gray;
+  background-color: #f2f2f2;
+  padding: 10px;
 }
