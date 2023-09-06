@@ -1,4 +1,4 @@
-(defproject org.parkerici/alzabo "1.0.0"
+(defproject org.parkerici/alzabo "1.1.0"
   :description "Semantic schema format and tools, for Datomic and other uses."
   :url "http://github.com/ParkerICI/alzabo"
   :license {:name "GPLv3"

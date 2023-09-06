@@ -79,14 +79,14 @@ Opens the generated documentation in browser..
 
 ## Use as a library
 
-Add dependency `[org.parkerici/alzabo "1.0.0"]` (or whatever the lastest version is)
+Add dependency `[org.candelbio/alzabo "1.0.0"]` (or whatever the lastest version is)
 
 ### Example
 
     (ns ...
-	  (:require [org.parkerici.alzabo.schema :as schema]
-                [org.parkerici.alzabo.datomic :as datomic]
-				[org.parkerici.alzabo.html :as html]))
+	  (:require [org.candelbio.alzabo.schema :as schema]
+                [org.candelbio.alzabo.datomic :as datomic]
+				[org.candelbio.alzabo.html :as html]))
 
 	;; read in a schema file
 	(let [schema (schema/read-schema <schema.edn>)]

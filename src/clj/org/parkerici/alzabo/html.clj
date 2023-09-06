@@ -1,7 +1,7 @@
 (ns org.parkerici.alzabo.html
   (:require [org.parkerici.alzabo.schema :as schema]
             [org.parkerici.alzabo.config :as config]
-            [org.parkerici.multitool.core :as u]
+            [org.candelbio.multitool.core :as u]
             [clojure.string :as s]
             [clojure.pprint :as pp]
             [me.raynes.fs :as fs]
@@ -141,7 +141,7 @@
 
 (defn- index->html
   [{:keys [kinds enums version title] :as schema} tag-version]
-  (let [[nonreference-kinds reference-kinds]
+  (let [groups (group-by :category (vals (u/self-label )kinds)
         (u/separate #(nil? (get-in kinds [% :reference?])) (keys kinds))]
     (html
      [:h1 title " Schema " version]
