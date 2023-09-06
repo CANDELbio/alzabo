@@ -140,9 +140,8 @@
     :padding-right "6px"}))
 
 (defn- index->html
-  [{:keys [kinds enums version title] :as schema} tag-version]
-  (let [groups (group-by :category (vals (u/self-label )kinds)
-        (u/separate #(nil? (get-in kinds [% :reference?])) (keys kinds))]
+  [{:keys [kinds enums version title categories] :as schema} tag-version]
+  (let [groups (group-by :category (vals (u/self-label :id kinds)))]
     (html
      [:h1 title " Schema " version]
      [:div#app]
@@ -157,20 +156,17 @@
       [:div.row
        [:div.col
         [:h2 "Kinds"]
-        ;;; OK ugly – when there is this split, add headers and separate section
-        (when (config/config :reference?)
-          [:div
-           [:h3 {:style (header-style (config/config :reference-color))}
-            "reference"]
-           [:ul
-            (for [kind (sort reference-kinds)]
-              (html [:li (kind-html kind)]))]
-           [:h3 {:style (header-style (config/config :main-color))} "experimental"]
-           ])
-        [:ul
-         (for [kind (sort nonreference-kinds)]
-           (html [:li (kind-html kind)]))
-         ]]
+        (if true ; (> (count categories) 1)
+          (for [[category-name kinds] categories]
+            (let [category (category-name categories)]
+              [:div
+               [:h3 {:style (header-style (:color category))}
+                (:label category)]
+               [:ul
+                (for [kind (sort-by :id kinds)]
+                  (html [:li (kind-html (:id kind))]))]
+               ])))
+        ]
        [:div.col
         [:h2 "Enums"]
         [:ul
