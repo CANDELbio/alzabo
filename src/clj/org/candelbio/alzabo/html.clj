@@ -166,10 +166,11 @@
      [:div.container
       [:div.row
        [:div.col
-        [:h2 "Kinds"]
+        [:h2 "Entities"]                ;aka Kinds, I suppose this should be configurable
         (if true ; (> (count categories) 1)
-          (for [[category-name kinds] categories]
-            (let [category (category-name categories)]
+          (for [category-name (keys categories)]
+            (let [kinds (category-name groups)
+                  category (category-name categories)]
               [:div
                [:h3 {:style (header-style (:color category))}
                 (:label category)]
@@ -219,7 +220,7 @@
 
 ;;; TODO if this gets any more complex, consider replacing with https://github.com/daveray/dorothy
 (defn- write-graphviz
-  [{:keys [kinds enums] :as schema} dot-file]
+  [{:keys [kinds enums categories] :as schema} dot-file]
   (let [clean (fn [kind] (s/replace (name kind) \- \_))
         attributes
         (fn [m & [sep]]
@@ -235,16 +236,16 @@
                    }
                   ";"))
         (doseq [kind (keys kinds)]
-          (let [{:keys [doc reference?]} (get-in schema [:kinds kind])]
+          (let [{:keys [doc category]} (get-in schema [:kinds kind])]
             (println (format "%s [%s];"
                              (clean kind)
                              (attributes {:URL (kind-url kind)
                                           :label (name kind)
                                           :tooltip (or doc (name kind))
                                           :style "filled"
-                                          :fillcolor (if reference?
-                                                       (config/config :reference-color)
-                                                       (config/config :main-color))
+                                          :fillcolor (if category
+                                                       (get-in categories [category :color])
+                                                       "white")
                                           :fontname graph-font}))))
           (doseq [[label ref cardinality] (kind-relations kind schema)]
             (println (format "%s -> %s [%s];"
