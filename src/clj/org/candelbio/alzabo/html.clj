@@ -47,16 +47,36 @@
   [m]
   (s/join (map (fn [[p v]] (format "%s: %s;" (name p) v)) m)))
 
+(defn boold
+  [boolean]
+  (if boolean "yes" ""))
+
+;;; TODO someday these might want to be customizable in config
+(def kind-metadata-colums
+  [{:display (fn [fieldprops] [:span {:style (style-arg {:white-space "nowrap"})} (:id fieldprops)])
+    :heading "attribute"}
+   {:display (fn [fieldprops] (kind-html (:type fieldprops)))
+    :heading "type"}
+   {:display :cardinality
+    :heading "cardinality"}
+   {:display (comp boold :unique)
+    :heading "unique"}
+   {:display (comp boold :required)
+    :heading "required"}
+   {:display (fn [fieldprops] (linkify (:doc fieldprops)))
+    :heading "doc"}])
+
 (defn- field->html
   [field props]
   (html
    [:tr
-    ;; TODO getting to the point where columns should be data-driven
-    [:td {:style (style-arg {:white-space "nowrap"})} field]
-    [:td (kind-html (:type props))]
-    [:td (:cardinality props)]
-    [:td (:unique props)]
-    [:td (linkify (:doc props))]]))
+    (for [col kind-metadata-colums]
+      [:td ((:display col) (assoc props :id field))])]))
+
+(defn- table-headings
+  []
+  [:tr (for [col kind-metadata-colums]
+         [:th (:heading col)])])
 
 (defn- backlink
   []
@@ -73,12 +93,7 @@
       (when doc
         [:div {:class "kind_doc"} doc])
       [:table {:class "table"}
-       [:tr
-        [:th "attribute"]
-        [:th "type"]
-        [:th "cardinality"]
-        [:th "unique"]
-        [:th "doc"]]
+       (table-headings)
        (for [[field props] (into (sorted-map) fields)]
          (field->html field props))]
       (when unique-id
@@ -147,7 +162,7 @@
 
 (defn- index->html
   [{:keys [kinds enums version title categories] :as schema} tag-version]
-  (let [groups (group-by :category (vals (u/self-label :id kinds)))]
+  (let [groups (group-by #(get % :category :default) (vals (u/self-label :id kinds)))]
     (html
      [:div.header
       [:h1 title " " version]
@@ -236,16 +251,14 @@
                    }
                   ";"))
         (doseq [kind (keys kinds)]
-          (let [{:keys [doc category]} (get-in schema [:kinds kind])]
+          (let [{:keys [doc category] :or {category :default}} (get-in schema [:kinds kind])]
             (println (format "%s [%s];"
                              (clean kind)
                              (attributes {:URL (kind-url kind)
                                           :label (name kind)
                                           :tooltip (or doc (name kind))
                                           :style "filled"
-                                          :fillcolor (if category
-                                                       (get-in categories [category :color])
-                                                       "white")
+                                          :fillcolor (get-in categories [category :color])
                                           :fontname graph-font}))))
           (doseq [[label ref cardinality] (kind-relations kind schema)]
             (println (format "%s -> %s [%s];"
