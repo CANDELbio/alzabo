@@ -5,7 +5,7 @@
 ;;; TODO Schema validation isn't working, it didn't detect when I was stupidly using :description instead of :doc
 
 (def primitives #{:long :float :string :boolean :instant :keyword ;Datomic
-                  :number                                         ;other
+                  :number :bigint                                 ;other
                   })
 
 ;;; Schema spec
@@ -54,6 +54,8 @@
 
 #?
 (:clj
+ 
+ 
  (defn read-schema
    [source]
    (validate-schema

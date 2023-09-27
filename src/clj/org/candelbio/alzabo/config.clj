@@ -5,11 +5,14 @@
   )
 
 (def the-config (atom nil))
+(def config-path (atom nil))
 
 (defn set-config!
   [config]                              ;filename or map
   (let [config (if (string? config)
-                 (edn/read-string (slurp config))
+                 (do
+                   (reset! config-path config)
+                   (edn/read-string (slurp config)))
                  config)]
     (reset! the-config config)))
 
@@ -42,6 +45,17 @@
    (fs/file
     (str (expand-template-string (config :output-path) (config))
          filename))))
+
+;; TODO → multitool (with some cleanup)
+(defn realize-rel-path
+  [base path]
+  (str (.getParentFile (fs/file base))
+       "/"
+       path))
+
+(defn realize-path
+  [path]
+  (realize-rel-path @config-path path))
 
 
 

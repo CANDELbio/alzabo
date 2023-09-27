@@ -18,12 +18,20 @@
   (.browse (java.awt.Desktop/getDesktop)
            (.toURI (java.io.File. file))))
 
+;; TODO → multitool (with some cleanup)
+(defn realize-rel-path
+  [base path]
+  (str (.getParentFile (fs/file base))
+       "/"
+       path))
+
+
 (defn- schema
   []
   (let [schema
         (if (= (config/config :source) :candel)
           (candel/read-schema)
-          (schema/read-schema (fs/file (config/config :source))))]
+          (schema/read-schema (realize-rel-path @config/config-path (config/config :source))))]
     (config/set! :version (:version schema))
     schema))
 
