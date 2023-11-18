@@ -141,7 +141,7 @@
 
 (defn- index->html
   [{:keys [kinds enums version title] :as schema} tag-version]
-  (let [groups (group-by :category (vals (u/self-label )kinds)
+  (let [[nonreference-kinds reference-kinds]
         (u/separate #(nil? (get-in kinds [% :reference?])) (keys kinds))]
     (html
      [:h1 title " Schema " version]

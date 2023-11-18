@@ -4,7 +4,7 @@
   :license {:name "Apache 2 License"
              :url "https://opensource.org/licenses/Apache-2.0"}
   :dependencies [;; Clojure 
-                 [org.clojure/clojure "1.10.0"]
+                 [org.clojure/clojure "1.11.1"]
                  [hiccup "1.0.5"]
                  [me.raynes/fs "1.4.6"]
                  ;; Clojurescript
