@@ -1,15 +1,15 @@
-(defproject org.parkerici/alzabo "1.0.0"
+(defproject org.candelbio/alzabo "1.1.0"
   :description "Semantic schema format and tools, for Datomic and other uses."
-  :url "http://github.com/ParkerICI/alzabo"
-  :license {:name "GPLv3"
-            :url "https://www.gnu.org/licenses/gpl-3.0.en.html"}
+  :url "http://github.com/candelbio/alzabo"
+  :license {:name "Apache 2 License"
+             :url "https://opensource.org/licenses/Apache-2.0"}
   :dependencies [;; Clojure 
-                 [org.clojure/clojure "1.10.0"]
+                 [org.clojure/clojure "1.11.1"]
                  [hiccup "1.0.5"]
                  [me.raynes/fs "1.4.6"]
                  ;; Clojurescript
                  [org.clojure/clojurescript "1.10.520"]
-                 [org.parkerici/multitool "0.0.15"]
+                 [org.candelbio/multitool "0.1.0"]
                  [reagent  "0.8.1"]
                  [re-frame "0.10.6"]
                  ]
@@ -24,7 +24,7 @@
                       ["cljsbuild" "once"]
                       ["run" "resources/candel-config.edn" "server" ]
                       ]}
-  :main org.parkerici.alzabo.core
+  :main org.candelbio.alzabo.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
                        }
@@ -33,8 +33,8 @@
                                   [figwheel-sidecar "0.5.16"]
                                   ]
                    :cljsbuild
-                   {:builds {:client {:figwheel     {:on-jsload "org.parkerici.alzabo.search.core/run"}
-                                      :compiler     {:main "org.parkerici.alzabo.search.core"
+                   {:builds {:client {:figwheel     {:on-jsload "org.candelbio.alzabo.search.core/run"}
+                                      :compiler     {:main "org.candelbio.alzabo.search.core"
                                                      :asset-path "js"
                                                      ;; for 10x debugger
                                                      :closure-defines {"re_frame.trace.trace_enabled_QMARK_" true}
@@ -53,7 +53,7 @@
              {:dependencies [[day8.re-frame/tracing-stubs "0.5.1"]]
               :cljsbuild
               {:builds {:client {
-                                 :compiler     {:main "org.parkerici.alzabo.search.core"
+                                 :compiler     {:main "org.candelbio.alzabo.search.core"
                                                 :asset-path "js"
                                                 :closure-defines {goog.DEBUG false}
                                                 :output-dir "resources/public/js"

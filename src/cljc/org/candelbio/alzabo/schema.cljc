@@ -1,4 +1,4 @@
-(ns org.parkerici.alzabo.schema
+(ns org.candelbio.alzabo.schema
   (:require [clojure.spec.alpha :as s]))
 
 (def primitives #{:long :float :string :boolean :instant :keyword})
@@ -21,7 +21,9 @@
 (s/def ::fields (s/map-of keyword? ::field))
 
 (s/def ::kind (s/keys :req-un [::fields] ;::inherits, but CANDEL not using that.
-                      :opt-un [::doc ::reference?]))
+                      :opt-un [::doc
+                               ::uri
+                               ::reference?])) ;TODO reference is too CANDEL-specific, replace with a kind-labels or tags or something
                       
 (s/def ::kinds (s/map-of keyword? ::kind :conform-keys? true))
 
@@ -34,6 +36,8 @@
 (s/def ::enums (s/map-of keyword? ::enum :conform-keys? true))
 
 (s/def ::version string?)
+
+(s/def ::uri (s/or :string string? :key keyword?))
 
 (s/def ::schema (s/keys :req-un [::kinds]
                         :opt-un [::enums ::version ::title]))

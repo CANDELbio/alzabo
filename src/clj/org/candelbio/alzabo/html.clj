@@ -1,7 +1,7 @@
-(ns org.parkerici.alzabo.html
-  (:require [org.parkerici.alzabo.schema :as schema]
-            [org.parkerici.alzabo.config :as config]
-            [org.parkerici.multitool.core :as u]
+(ns org.candelbio.alzabo.html
+  (:require [org.candelbio.alzabo.schema :as schema]
+            [org.candelbio.alzabo.config :as config]
+            [org.candelbio.multitool.core :as u]
             [clojure.string :as s]
             [clojure.pprint :as pp]
             [me.raynes.fs :as fs]
@@ -177,11 +177,11 @@
          (for [enum (sort (keys enums))]
            (html [:li (kind-html enum)]))]]
        ;; Pass the schema to clojurescript widget inside an invisible div
-       ;; See org.parkerici.alzabo.search.core/get-schema
+       ;; See org.candelbio.alzabo.search.core/get-schema
        [:div#aschema {:style (style-arg {:display "none"})}
         (str schema)]
        [:script {:src "js/client.js"}]
-       [:script "window.onload = function() { org.parkerici.alzabo.search.core.run(); }"]
+       [:script "window.onload = function() { org.candelbio.alzabo.search.core.run(); }"]
        ]]
      )))
 
@@ -206,7 +206,7 @@
     res))
 
 ;;; To use this, do 'brew install graphviz' first (on Mac)
-(def dot-command "dot")
+(def dot-command "/usr/local/bin/dot")
 
 ;;; Font should be available in Docker build image
 (def graph-font "Helvetica")

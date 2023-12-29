@@ -1,8 +1,8 @@
-(ns org.parkerici.alzabo.search.core
+(ns org.candelbio.alzabo.search.core
   (:require [reagent.core :as reagent]
             [re-frame.core :as rf]
             [clojure.reader :as reader]
-            [org.parkerici.alzabo.search.lexicon :as lex]
+            [org.candelbio.alzabo.search.lexicon :as lex]
             ))
 
 ;; Get the schema from an invisible div on the page
