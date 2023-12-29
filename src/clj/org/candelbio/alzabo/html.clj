@@ -206,7 +206,7 @@
     res))
 
 ;;; To use this, do 'brew install graphviz' first (on Mac)
-(def dot-command "/opt/homebrew/bin/dot")
+(def dot-command "/usr/local/bin/dot")
 
 ;;; Font should be available in Docker build image
 (def graph-font "Helvetica")
