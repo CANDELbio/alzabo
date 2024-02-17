@@ -1,11 +1,11 @@
-(ns org.parkerici.alzabo.roundtrip
+(ns org.candelbio.alzabo.roundtrip
   (:require [clojure.data :as data]
             [clojure.pprint :refer [pprint]]
-            [org.parkerici.alzabo.output :as output]
-            [org.parkerici.alzabo.candel :as candel]
-            [org.parkerici.alzabo.config :as config]
-            [org.parkerici.alzabo.datomic :as datomic]
-            [org.parkerici.multitool.core :as u]))
+            [org.candelbio.alzabo.output :as output]
+            [org.candelbio.alzabo.candel :as candel]
+            [org.candelbio.alzabo.config :as config]
+            [org.candelbio.alzabo.datomic :as datomic]
+            [org.candelbio.multitool.core :as u]))
 
 ;;; TODO finish?
 ;;; Experiments in roundtripping. 

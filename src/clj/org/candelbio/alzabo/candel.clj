@@ -1,10 +1,10 @@
-(ns org.parkerici.alzabo.candel
+(ns org.candelbio.alzabo.candel
   (:require [clojure.set :as set]
             [clojure.string :as str]
             [clojure.java.shell :as shell]
-            [org.parkerici.alzabo.config :as config]
-            [org.parkerici.alzabo.schema :as schema]
-            [org.parkerici.multitool.core :as u]))
+            [org.candelbio.alzabo.config :as config]
+            [org.candelbio.alzabo.schema :as schema]
+            [org.candelbio.multitool.core :as u]))
 
 ;;; Converts CANDEL [meta]schema into an Alzabo schema
 
@@ -114,8 +114,8 @@
         kind-defs (map (fn [em]
                          {:parent (:kind/parent em)
                           ;; TODO I think this will have to change to allow metamodel to be derived...maybe
-                          :unique-id (u/dens (or (:kind/need-uid em) (:kind/context-id em)))
-                          :label (u/dens (:kind/context-id em))
+                          :unique-id (u/de-ns (or (:kind/need-uid em) (:kind/context-id em)))
+                          :label (u/de-ns (:kind/context-id em))
                           :reference? (:kind/ref-data em)})
                        entity-meta)
         [enums version] (read-enums)

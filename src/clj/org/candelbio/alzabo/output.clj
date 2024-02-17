@@ -1,4 +1,4 @@
-(ns org.parkerici.alzabo.output
+(ns org.candelbio.alzabo.output
   (:require [clojure.pprint :as pprint]
             [clojure.java.io :as io]
             [me.raynes.fs :as fs]

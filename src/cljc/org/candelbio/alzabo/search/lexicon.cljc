@@ -1,6 +1,6 @@
-(ns org.parkerici.alzabo.search.lexicon
+(ns org.candelbio.alzabo.search.lexicon
   (:require [clojure.string :as str]
-            [org.parkerici.multitool.nlp :as nlp]))
+            [org.candelbio.multitool.nlp :as nlp]))
   
 (defn add-def-word [dict word def]
   (let [word (str/lower-case word)]
