@@ -318,7 +318,7 @@
   #_ (make-link (output-file "alzabo.css") "../../alzabo.css")
   (io/copy (io/reader (io/resource "public/alzabo.css"))
            (io/file (output-file "alzabo.css")))
-  (io/copy (io/reader (io/resource "public/js/client.js"))
+  (io/copy (io/reader (io/resource "public/jsu/client.js")) ;Copy the uberjar version, which is single-file, so might actually work
            (io/file (output-file "client.js")))
   nil
   )

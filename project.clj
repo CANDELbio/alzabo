@@ -4,13 +4,13 @@
   :license {:name "Apache 2 License"
              :url "https://opensource.org/licenses/Apache-2.0"}
   :dependencies [;; Clojure 
-                 [org.clojure/clojure "1.11.1"]
+                 [org.clojure/clojure "1.11.3"]
                  [hiccup "1.0.5"]
                  [clj-commons/clj-yaml "0.7.0"]
                  [me.raynes/fs "1.4.6"]
                  ;; Clojurescript
                  [org.clojure/clojurescript "1.10.520"]
-                 [org.candelbio/multitool "0.1.0"]
+                 [org.candelbio/multitool "0.1.6"]
                  [reagent  "0.8.1"]
                  [re-frame "0.10.6"]
                  ]
@@ -30,7 +30,7 @@
   :profiles {:library {:prep-tasks ["compile" ["cljsbuild" "once"]]
                        }
              :uberjar {:aot :all
-                       :prep-tasks ["compile" ["cljsbuild" "once"]]
+                       :prep-tasks ["compile" ["cljsbuild" "once" "uberjar"]]
                        :omit-source true}
              :dev {:dependencies [[cider/piggieback "0.3.10"]
                                   [day8.re-frame/re-frame-10x "0.3.3"]
@@ -75,7 +75,12 @@
 
   :cljsbuild {:builds {:client {:source-paths ["src/clj" "src/cljs" "src/cljc" "env/prod/cljs"]
                                 :compiler     {:output-dir "resources/public/js"
-                                               :output-to  "resources/public/js/client.js"}}}}
+                                               :output-to  "resources/public/js/client.js"}}
+                       :uberjar {:source-paths ["src/clj" "src/cljs" "src/cljc" "env/prod/cljs"]
+                                 :compiler     {:output-dir "resources/public/jsu"
+                                                :output-to  "resources/public/jsu/client.js"
+                                                :optimizations :advanced ;not working AFICT
+                                                }}}} 
 
   :figwheel {
              :server-port 3452
