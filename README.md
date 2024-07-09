@@ -1,5 +1,9 @@
 # alzabo
 
+A simple schema management and documentation tool for graph-based systems. [Live example](https://candelbio.github.io/alzabo/).
+
+![Alzabo](resources/public/screenshot.png)
+
 Alzabo does a number of different tasks centered around a simple schema format for graph databases.
 
 Core:
