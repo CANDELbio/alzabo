@@ -10,7 +10,7 @@
                  [me.raynes/fs "1.4.6"]
                  ;; Clojurescript
                  [org.clojure/clojurescript "1.10.520"]
-                 [org.candelbio/multitool "0.1.6"]
+                 [org.candelbio/multitool "0.1.5"]
                  [reagent  "0.8.1"]
                  [re-frame "0.10.6"]
                  ]
