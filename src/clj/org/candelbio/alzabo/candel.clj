@@ -116,7 +116,7 @@
                           ;; TODO I think this will have to change to allow metamodel to be derived...maybe
                           :unique-id (u/de-ns (or (:kind/need-uid em) (:kind/context-id em)))
                           :label (u/de-ns (:kind/context-id em))
-                          :reference? (:kind/ref-data em)})
+                          :category (if (:kind/ref-data em) :reference :experimental) })
                        entity-meta)
         [enums version] (read-enums)
         kinds
@@ -133,7 +133,9 @@
      {:title "CANDEL"
       :version version
       :kinds kinds
-      :enums enums})))
+      :enums enums
+      :categories {:reference {:color "moccasin" :label "Reference"},
+                   :experimental {:color "lightsteelblue" :label "Experimental"}}})))
 
 (defn metamodel 
   "Generate a Pret metamodel from an Alzabo schema"

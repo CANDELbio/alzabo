@@ -1,7 +1,7 @@
 ;;; This is config for CANDEL. Assumes that Pret is available as a sibling directory to Alzabo
 
 {:source :candel
- :pret-path "pret"                      ;Assumes pret is cloned in a subdir, see deploy,yanl
+ :pret-path "pret"                      ;Assumes pret is cloned in a subdir, see deploy.yaml
  :output-path "resources/public/schema/{version}/" 
  :edge-labels? false
  :reference? true
