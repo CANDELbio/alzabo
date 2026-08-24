@@ -1,7 +1,7 @@
-{:source "test/resources/schema/rawsugar.edn"
+{:source "schema/rawsugar.edn"
  :output-path "target/rawsugar/"
  :reference? true
- :main-color "moccasin"
+ :main-color "moccasin"                 ;TODO needs to change?
  :reference-color "lightsteelblue"
  :dev? false
  }

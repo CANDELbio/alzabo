@@ -1,0 +1,202 @@
+{:version "1.0",
+ :title "Jazz Music Database Schema",
+ :description "A comprehensive schema for jazz musicians, bands, songs, recordings, genres, and record labels",
+ :kinds
+ {:Musician
+  {:description "A jazz musician or performer",
+   :reference? true,
+   :fields
+   {:name {:type :string, :required? true, :doc "Full name of the musician"
+           :examples ["Miles Davis" "John Coltrane" "Thelonious Monk"]},
+    :stageName {:type :string, :doc "Professional/stage name if different from real name"
+                :examples ["Bird" "Dizzy" "Trane"]},
+    :birthDate {:type :Date, :doc "Date of birth"},
+    :deathDate {:type :Date, :doc "Date of death if deceased"},
+    :birthPlace {:type :string, :doc "City/country of birth"
+                 :examples ["New York, USA" "New Orleans, USA" "Philadelphia, USA"]},
+    :instruments {:type :Instrument, :cardinality :many, :doc "Instruments played by this musician"},
+    :genres {:type :Genre, :cardinality :many, :doc "Primary genres associated with this musician"},
+    :bands {:type :Band, :cardinality :many, :doc "Bands this musician has been part of"},
+    :soloRecordings {:type :Recording, :cardinality :many, :doc "Solo recordings by this musician"},
+    :biography {:type :string, :doc "Biographical information"},
+    :website {:type :string, :doc "Official website URL"},
+    :influences {:type :Musician, :cardinality :many, :doc "Musicians who influenced this artist"},
+    :influenced {:type :Musician, :cardinality :many, :doc "Musicians influenced by this artist"},
+    :awards {:type :Award, :cardinality :many, :doc "Awards and honors received"}}},
+
+  :Band
+  {:description "A jazz band or ensemble",
+   :reference? true,
+   :fields
+   {:name {:type :string, :required? true, :doc "Name of the band"},
+    :formedDate {:type :Date, :doc "Date the band was formed"},
+    :disbandedDate {:type :Date, :doc "Date the band disbanded, if applicable"},
+    :location {:type :string, :doc "Primary location/city of the band"},
+    :members {:type :BandMembership, :cardinality :many, :required? true, :doc "Current and former band members"},
+    :genres {:type :Genre, :cardinality :many, :doc "Musical genres associated with this band"},
+    :recordings {:type :Recording, :cardinality :many, :doc "Recordings by this band"},
+    :recordLabels {:type :RecordLabel, :cardinality :many, :doc "Record labels the band has worked with"},
+    :description {:type :string, :doc "Description of the band's style and history"},
+    :website {:type :string, :doc "Official website URL"},
+    :isActive {:type :boolean, :doc "Whether the band is currently active"}}},
+
+  :BandMembership
+  {:description "Relationship between a musician and a band",
+   :fields
+   {:musician {:type :Musician, :required? true},
+    :band {:type :Band, :required? true},
+    :instrument {:type :Instrument, :doc "Primary instrument played in this band"},
+    :role {:type :string, :doc "Role in the band (e.g., 'Leader', 'Sideman', 'Guest')"}, ;TODO enum
+    :joinDate {:type :Date, :doc "Date joined the band"},
+    :leaveDate {:type :Date, :doc "Date left the band, if applicable"},
+    :isCurrentMember {:type :boolean, :doc "Whether this is a current membership"}}},
+
+  :Song
+  {:description "A jazz composition or song",
+   :reference? true,
+   :fields
+   {:title {:type :string, :required? true, :doc "Title of the song"},
+    :composer {:type :Musician, :doc "Primary composer of the song"},
+    :composers {:type :Musician, :cardinality :many, :doc "All composers if multiple"},
+    :lyricist {:type :Musician, :doc "Lyricist if different from composer"},
+    :publishDate {:type :Date, :doc "Date of first publication"},
+    :genre {:type :Genre, :doc "Primary genre classification"},
+    :keySignature {:type :string, :doc "Musical key (e.g., 'C major', 'Bb minor')"
+                   :examples ["C major" "Bb minor" "F# major"]},
+    :timeSignature {:type :string, :doc "Time signature (e.g., '4/4', '3/4')"
+                    :examples ["4/4" "3/4" "6/8"]},
+    :tempo {:type :string, :doc "Tempo marking (e.g., 'Medium Swing', 'Ballad')"
+            :examples ["Medium Swing" "Ballad" "Up Tempo"]},
+    :duration {:type :int, :doc "Duration in seconds for original version"},
+    :recordings {:type :Recording, :cardinality :many, :doc "Recordings of this song"},
+    :isStandard {:type :boolean, :doc "Whether this is considered a jazz standard"},
+    :copyright {:type :string, :doc "Copyright information"},
+    :publisher {:type :string, :doc "Music publisher"}}},
+
+  :Recording
+  {:description "A specific recording of one or more songs",
+   :reference? true,
+   :fields
+   {:title {:type :string, :required? true, :doc "Title of the recording/album"},
+    :recordingDate {:type :Date, :doc "Date of recording"},
+    :releaseDate {:type :Date, :doc "Date of release"},
+    :recordingLocation {:type :string, :doc "Studio or venue where recorded"},
+    :recordLabel {:type :RecordLabel, :doc "Record label that released this recording"},
+    :catalogNumber {:type :string, :doc "Catalog number from the record label"},
+    :format {:type :RecordingFormat, :doc "Physical/digital format"}, ;TODO might not want this
+    :tracks {:type :Track, :cardinality :many, :required? true, :doc "Individual tracks on this recording"},
+    :personnel {:type :RecordingPersonnel, :cardinality :many, :doc "Musicians who participated in this recording"},
+    :producer {:type :string, :doc "Producer of the recording"},
+    :engineer {:type :string, :doc "Recording engineer"},
+    :genres {:type :Genre, :cardinality :many, :doc "Genres associated with this recording"},
+    :duration {:type :int, :doc "Total duration in seconds"},
+    :isLiveRecording {:type :boolean, :doc "Whether this is a live recording"},
+    :venue {:type :Venue, :doc "Venue for live recordings"},
+    :awards {:type :Award, :cardinality :many, :doc "Awards received by this recording"}}},
+
+  :Track
+  {:description "An individual track on a recording",
+   :fields
+   {:trackNumber {:type :int, :required? true, :doc "Track number on the recording"},
+    :song {:type :Song, :required? true, :doc "The song being performed on this track"},
+    :duration {:type :int, :doc "Duration of this track in seconds"},
+    :key {:type :string, :doc "Key this song is performed in on this track"},
+    :tempo {:type :string, :doc "Tempo for this specific performance"},
+    :personnel {:type :RecordingPersonnel, :cardinality :many, :doc "Musicians on this specific track"},
+    :soloists {:type :Musician, :cardinality :many, :doc "Musicians who solo on this track"},
+    :notes {:type :string, :doc "Notes about this specific performance"}}},
+
+  ;; TODO same as BandMembership, sort of? Think about it.
+  :RecordingPersonnel
+  {:description "A musician's participation in a specific recording",
+   :fields
+   {:musician {:type :Musician, :required? true},
+    :instrument {:type :Instrument, :required? true},
+    :role {:type :string, :doc "Role (e.g., 'Leader', 'Sideman', 'Guest')"},
+    :tracks {:type :int, :cardinality :many, :doc "Track numbers this musician appears on"}}},
+
+  :Genre
+  {:description "A musical genre or subgenre",
+   :reference? true,
+   :fields
+   {:name {:type :string, :required? true, :doc "Name of the genre"},
+    :description {:type :string, :doc "Description of the genre characteristics"},
+    :parentGenre {:type :Genre, :doc "Parent genre if this is a subgenre"},
+    :subgenres {:type :Genre, :cardinality :many, :doc "Subgenres within this genre"},
+    :originPeriod {:type :string, :doc "Time period when this genre originated"},
+    :keyCharacteristics {:type :string, :cardinality :many, :doc "Musical characteristics of this genre"},
+    :influentialArtists {:type :Musician, :cardinality :many, :doc "Artists who helped define this genre"}}},
+
+  :RecordLabel
+  {:description "A record label or recording company",
+   :reference? true,
+   :fields
+   {:name {:type :string, :required? true, :doc "Name of the record label"},
+    :foundedDate {:type :Date, :doc "Date the label was founded"},
+    :closedDate {:type :Date, :doc "Date the label closed, if applicable"},
+    :founder {:type :string, :doc "Founder(s) of the label"},
+    :headquarters {:type :string, :doc "Location of headquarters"},
+    :genres {:type :Genre, :cardinality :many, :doc "Primary genres the label specializes in"},
+    :artists {:type :Musician, :cardinality :many, :doc "Artists who have recorded for this label"},
+    :bands {:type :Band, :cardinality :many, :doc "Bands who have recorded for this label"},
+    :recordings {:type :Recording, :cardinality :many, :doc "Recordings released by this label"},
+    :parentCompany {:type :string, :doc "Parent company if applicable"},
+    :website {:type :string, :doc "Official website URL"},
+    :description {:type :string, :doc "Description of the label's history and focus"},
+    :isActive {:type :boolean, :doc "Whether the label is currently active"}}},
+
+  :Instrument
+  {:description "A musical instrument",
+   :reference? true,
+   :fields
+   {:name {:type :string, :required? true, :doc "Name of the instrument"},
+    :category {:type :InstrumentCategory, :required? true, :doc "Category of instrument"},
+    :description {:type :string, :doc "Description of the instrument"},
+    :keyCharacteristics {:type :string, :cardinality :many, :doc "Key characteristics in jazz performance"}}},
+
+  :Venue
+  {:description "A venue where jazz is performed",
+   :reference? true,
+   :fields
+   {:name {:type :string, :required? true, :doc "Name of the venue"},
+    :location {:type :string, :required? true, :doc "City and country"},
+    :address {:type :string, :doc "Street address"},
+    :openedDate {:type :Date, :doc "Date the venue opened"},
+    :closedDate {:type :Date, :doc "Date the venue closed, if applicable"},
+    :capacity {:type :int, :doc "Maximum capacity"},
+    :description {:type :string, :doc "Description and history of the venue"},
+    :website {:type :string, :doc "Official website URL"},
+    :isActive {:type :boolean, :doc "Whether the venue is currently active"}}},
+
+  :Award
+  {:description "An award or honor",
+   :fields
+   {:name {:type :string, :required? true, :doc "Name of the award"},
+    :category {:type :string, :doc "Award category"},
+    :year {:type :int, :required? true, :doc "Year the award was received"},
+    :organization {:type :string, :doc "Organization that gave the award"},
+    :description {:type :string, :doc "Description of the award"}}}},
+
+ :enums
+ {:InstrumentCategory
+  {:values
+   {:BRASS "Brass",
+    :WOODWIND "Woodwind",
+    :STRING "String",
+    :PERCUSSION "Percussion",
+    :KEYBOARD "Keyboard",
+    :VOICE "Voice",
+    :ELECTRONIC "Electronic"}},
+
+  :RecordingFormat
+  {:values
+   {:VINYL_78 "78 RPM",
+    :VINYL_LP "LP (33⅓ RPM)",
+    :VINYL_45 "45 RPM",
+    :CD "Compact Disc",
+    :CASSETTE "Cassette Tape",
+    :DIGITAL "Digital",
+    :STREAMING "Streaming",
+    :OTHER "Other"}}},
+
+}

@@ -1,0 +1,5 @@
+{:source "schema/inheritance-demo.edn"
+ :output-path "target/inheritance-demo/"
+ :reference? false
+ :main-color "lightblue"
+ :dev? false}

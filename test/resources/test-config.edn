@@ -1,7 +1,7 @@
 {:source :candel
  :pret-path "test/resources/pretense"
  ;; gets filled in with a temp dir
- ;; :output-path "resources/public/schema/{version}/" 
+ ;; :output-path "resources/public/schema/{{version}}/" 
  :reference? true
  :main-color "moccasin"
  :reference-color "lightsteelblue"

@@ -5,13 +5,13 @@
    {:name
     {:type :string
      :cardinality :one
-     :unique :identity}}}
+     :unique? :identity}}}
   :experiment
   {:fields
    {:name
     {:type :string
      :cardinality :one
-     :unique :identity}
+     :unique? :identity}
     :results
     {:type [:gene :float]
      :cardinality :many

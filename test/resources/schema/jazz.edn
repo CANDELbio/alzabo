@@ -1,0 +1,226 @@
+{:version "1.0"
+ :title "Jazz Music Database Schema"
+ :kinds
+ {:person
+  {:doc "Base entity for all people in the database"
+   :fields
+   {:name {:type :string
+           :doc "Full name"
+           :unique? true}
+    :birth-date {:type :instant
+                 :doc "Date of birth"}
+    :biography {:type :string
+                :doc "Biographical information"}}}
+
+  :musician
+  {:doc "A performing musician (extends person)"
+   :extends :person
+   :fields
+   {:instrument {:type :instrument-enum
+                 :cardinality :many
+                 :doc "Primary instrument(s) played"}
+    :style {:type :style-enum
+            :cardinality :many
+            :doc "Musical styles/genres"}
+    :performances {:type :performance
+                   :cardinality :many
+                   :doc "Performances by this musician"}}}
+
+  :composer
+  {:doc "A composer/songwriter (extends musician)"
+   :extends :musician
+   :fields
+   {:compositions {:type :composition
+                   :cardinality :many
+                   :doc "Original compositions"}
+    :ascap-member? {:type :boolean
+                    :doc "ASCAP membership status"}}}
+
+  :producer
+  {:doc "A recording producer (extends person)"
+   :extends :person
+   :fields
+   {:production-company {:type :string
+                         :doc "Production company name"}
+    :produced-sessions {:type :recording-session
+                        :cardinality :many
+                        :doc "Sessions produced"}}}
+
+  :recording
+  {:doc "Base entity for all recordings"
+   :fields
+   {:title {:type :string
+            :doc "Recording title"}
+    :release-date {:type :instant
+                   :doc "Release date"}
+    :label {:type :label
+            :doc "Record label"}
+    :catalog-number {:type :string
+                     :unique? true
+                     :doc "Catalog number"}}}
+
+  :album
+  {:doc "Full-length album (extends recording)"
+   :extends :recording
+   :fields
+   {:tracks {:type :track
+             :cardinality :many
+             :component? true
+             :doc "Album tracks"}
+    :liner-notes {:type :string
+                  :doc "Liner notes text"}
+    :cover-art {:type :string
+                :doc "Cover art image path"}}}
+
+  :compilation
+  {:doc "Compilation album (extends album)"
+   :extends :album
+   :fields
+   {:compilation-type {:type :compilation-type-enum
+                       :doc "Type of compilation (best-of, anthology, etc.)"}
+    :original-releases {:type :album
+                        :cardinality :many
+                        :doc "Original albums compiled"}}}
+
+  :performance
+  {:doc "Base entity for musical performances"
+   :fields
+   {:composition {:type :composition
+                  :doc "Composition performed"}
+    :duration {:type :long
+               :doc "Duration in seconds"}
+    :performers {:type :musician
+                 :cardinality :many
+                 :doc "Musicians performing"}}}
+
+  :recording-session
+  {:doc "Studio recording session (extends performance)"
+   :extends :performance
+   :fields
+   {:session-date {:type :instant
+                   :doc "Recording date"}
+    :studio {:type :studio
+             :doc "Recording studio"}
+    :producer {:type :producer
+               :doc "Session producer"}
+    :engineer {:type :person
+               :doc "Recording engineer"}}}
+
+  :live-performance
+  {:doc "Live concert performance (extends performance)"
+   :extends :performance
+   :fields
+   {:venue {:type :venue
+            :doc "Performance venue"}
+    :concert-date {:type :instant
+                   :doc "Concert date"}
+    :audience-size {:type :long
+                    :doc "Estimated audience"}
+    :bootleg? {:type :boolean
+               :doc "Is this a bootleg recording?"}}}
+
+  :track
+  {:doc "Individual track on an album"
+   :fields
+   {:track-number {:type :long
+                   :doc "Track number on album"}
+    :performance {:type :performance
+                  :doc "The performance on this track"}
+    :fade-in? {:type :boolean
+               :doc "Track has fade-in"}
+    :fade-out? {:type :boolean
+                :doc "Track has fade-out"}}}
+
+  :composition
+  {:doc "A musical composition/song"
+   :fields
+   {:title {:type :string
+            :doc "Composition title"}
+    :composer {:type :composer
+               :cardinality :many
+               :doc "Composer(s)"}
+    :year-composed {:type :long
+                    :doc "Year composed"}
+    :form {:type :composition-form-enum
+           :doc "Musical form (standard, blues, etc.)"}}}
+
+  :venue
+  {:doc "Concert venue or club"
+   :fields
+   {:name {:type :string
+           :unique? true
+           :doc "Venue name"}
+    :city {:type :string
+           :doc "City"}
+    :capacity {:type :long
+               :doc "Seating capacity"}
+    :active-years {:type :string
+                   :doc "Years of operation"}}}
+
+  :studio
+  {:doc "Recording studio"
+   :fields
+   {:name {:type :string
+           :unique? true
+           :doc "Studio name"}
+    :city {:type :string
+           :doc "City location"}
+    :founded {:type :instant
+              :doc "Year founded"}}}
+
+  :label
+  {:doc "Record label"
+   :fields
+   {:name {:type :string
+           :unique? true
+           :doc "Label name"}
+    :founded {:type :instant
+              :doc "Year founded"}
+    :parent-label {:type :label
+                   :doc "Parent label if subsidiary"}
+    :releases {:type :recording
+               :cardinality :many
+               :doc "Releases on this label"}}}}
+
+ :enums
+ {:instrument-enum
+  {:doc "Musical instruments"
+   :values
+   {:trumpet "Trumpet"
+    :saxophone "Saxophone"
+    :piano "Piano"
+    :bass "Double Bass"
+    :drums "Drums"
+    :guitar "Guitar"
+    :trombone "Trombone"
+    :clarinet "Clarinet"
+    :vibraphone "Vibraphone"}}
+
+  :style-enum
+  {:doc "Musical styles"
+   :values
+   {:bebop "Bebop"
+    :hard-bop "Hard Bop"
+    :cool-jazz "Cool Jazz"
+    :free-jazz "Free Jazz"
+    :modal "Modal Jazz"
+    :fusion "Fusion"
+    :swing "Swing"
+    :latin "Latin Jazz"}}
+
+  :compilation-type-enum
+  {:doc "Types of compilation albums"
+   :values
+   {:best-of "Best Of"
+    :anthology "Anthology"
+    :rarities "Rarities"
+    :live "Live Compilation"}}
+
+  :composition-form-enum
+  {:doc "Musical forms"
+   :values
+   {:standard "Standard (AABA)"
+    :blues "Blues (12-bar)"
+    :modal "Modal"
+    :free "Free Form"
+    :latin "Latin"}}}}

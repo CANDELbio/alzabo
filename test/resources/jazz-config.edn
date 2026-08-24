@@ -1,0 +1,6 @@
+{:source "schema/jazz.edn"
+ :output-path "target/jazz/"
+ :reference? false
+ :main-color "lightgoldenrodyellow"
+ :edge-labels? true
+ :dev? false}

@@ -1,0 +1,4 @@
+{:source "jazz-schema.edn"
+ :output-path "resources/public/schema/jazz/{{version}}/" 
+ :edge-labels? true
+ }

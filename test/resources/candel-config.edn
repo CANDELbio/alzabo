@@ -1,6 +1,6 @@
 {:source :candel
  :pret-path "test/resources/pretense"
- :output-path "target/candel/{version}/" 
+ :output-path "target/candel/{{version}}/" 
  :reference? true
  :main-color "moccasin"
  :reference-color "lightsteelblue"

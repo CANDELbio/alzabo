@@ -1,0 +1,21 @@
+{:version "2.0"
+ :kinds
+ {:subject
+  {:doc "Subjects aka patients, participants. All clinical data goes here"
+   :fields
+   {:id
+    {:type :string
+     :cardinality :one
+     :unique? :identity}
+    :age {:type :number :doc "Age in years"}}
+   }
+  :sample
+  {:fields
+   {:id
+    {:type :string
+     :cardinality :one
+     :unique? :identity}
+    :subject {:type :subject}}}
+  }
+ }
+  

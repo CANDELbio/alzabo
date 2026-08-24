@@ -1,0 +1,238 @@
+{:version "1.0",
+ :title "Catamite Object Model"
+ :description "A reverse-engineered conceptual model for Catamite.bio"
+ :kinds
+ {:Environment
+  {:fields
+   {:name {:type :string},
+    :repoName {:type :string},
+    :displayName {:type :string},
+    :default {},
+    :pipelines {:type :Pipeline},
+    :flowFunctions {:type :PipelineOperator, :cardinality :many}}},
+  :RoleData
+  {:fields
+   {:env_users {:type :User :cardinality :many},
+    :env_user_mapping {},
+    :flow_roles {:type :FlowRole, :cardinality :many},
+    :tenant {:type :string}}},
+  :User                                 ;I just made this up, its not in YAML
+  {:fields {}}
+  :PipelineSettings
+  {:fields
+   {:owner {:type :string},             ;TODO
+    :retries {:type :number},
+    :email {:type :string, :cardinality :many},
+    :emailOnFailure {:type :boolean}}},
+  :Pipeline
+  {:reference? true
+   :fields
+   {:id {:type :string},
+    :description {:type :string},
+    :tasks {:type :PipelineStep},
+    :default_args {:type :PipelineSettings},
+    :tags {:type :string, :cardinality :many}}},
+  :PipelineStep
+  {:reference? true
+   :description "I assume an operator instantiated in a pipeline?"
+   :fields
+   {:operator {:type :Operator},
+    :params {},
+    :dependencies {:type :string, :cardinality :many}}}, ;TODO
+  :Asset
+  {:fields
+   {:id {:type :number},
+    :name {:type :string},
+    :label {:type :string},
+    :contentType {:type :string},
+    :size {:type :number},
+    :downloadCount {:type :number},
+    :createdAt {:type :instant},
+    :updatedAt {:type :instant}}},
+  :PipelineOperator
+  {:description "??? what is relationship with :Operator?"
+   :fields
+   {:name {:type :string},
+    :repo {:type :string},
+    :path {:type :string},
+    :src {:type :string},
+    :ref {:type :string}}},
+  :TableRow {:fields {:row {}, :error {:type :string}}},
+  :RunConf
+  {:fields
+   {:runTag {:type :string},
+    :displayTag {:type :string},
+    :runId {:type :FlowRun},
+    :params {:type :RunConfParams},
+    :initiator {:type :InitiatorType}}},
+  :OperatorParam
+  {:fields
+   {:name {:type :string},
+    :type {:type :string},
+    :default {}}},
+  :Flow
+  {:reference? true
+   :fields
+   {:id {:type :string},
+    :description {:type :string},
+    :active {:type :boolean}}},
+  :AgentOption
+  {:fields
+   {:id {:type :string},
+    :display_name {:type :string},
+    :path {:type :string},
+    :class_name {:type :string},
+    :build_params {},
+    :run_params {},
+    :output_values {},
+    :required_inputs {}}},
+  :CopyFile
+  {:fields
+   {:destBucketName {:type :string},
+    :destFileName {:type :string},
+    :srcBucketName {:type :string},
+    :srcFilename {:type :string},
+    :bucketType {:type :BucketType}}},
+  :RunConfParams
+  {:fields
+   {:param_single {}, :param_list {}}},
+  :HistoryEntry
+  {:fields
+   {:instant {:type :instant},
+    :assets {:type :Asset, :cardinality :many},
+    :tagName {:type :string},
+    :createdAt {:type :string},
+    :author {:type :Author},
+    :releaseName {:type :string},
+    :body {:type :string},
+    :sha {:type :string},
+    :message {:type :string}}},
+  :Operator
+  {:reference? true
+   :fields
+   {:description {:type :string},
+    :path {:type :string},
+    :name {:type :string},
+    :params {:type :OperatorParam, :cardinality :many},
+    :type {:type :string},
+    :src {:type :string},
+    :output {:type :string},
+    :id {:type :string},
+    :editor {:type :string},
+    :action {:type :string},
+    :repo {:type :string},
+    :input {:type :string}}},
+  :AgentOptions
+  {:fields
+   {:triggers {:type :AgentOption, :cardinality :many},
+    :actions {:type :AgentOption, :cardinality :many}}},
+  :FlowRole {:fields {:users {:type :User}, :flow {:type :Flow}}},
+  :Author {:fields {:name {:type :string}, :email {:type :string}}},
+  :FlowRun
+  {:description "source of truth __FLOW_METADATA. Combined in FlowRunWithOutput. "
+   :reference? true
+   :fields
+   {:dag_id {:type :Flow :description "aka flow_id?"},
+    :dag_run_id {:type :string :description "??? Confused, isn't this the thing itself? So, FlowRun ~= DagRun???"},
+    :state {:type :string},
+    :start_date {:type :instant},
+    :end_date {:type :instant},
+    :execution_date {:type :instant},
+    :conf {:type :RunConf}
+    :output {:type :TableRow, :cardinality :many, :description "from FlowRunWithOutput"}
+    }},
+  :FlowDetails
+  {:description "Airflow related, not sure relation to Flow"
+   :fields
+   {:tasks {:type :TaskInstance, :cardinality :many},
+    :logs {}}},
+  :Connection
+  {:description "A connection is the instantiation of an Agent (???)"
+   :reference? true
+   :fields
+   {:name {:type :string},
+    :status {:type :string},
+    :triggerCount {:type :number},
+    :arguments {:type :string}}},
+  :DagTagBody
+  {:fields
+   {:flow {:type :Flow},                ;I guess!
+    :tag {:type :string},
+    :userUid {:type :string}}},
+  :File
+  {:description "Originally :FileMetaData.  Not sure what SOT is, maybe __OUTPUT_METADATA? Defined in upload service"
+   :reference? true
+   :fields
+   {:id {:type :string},
+    :run {:type :FlowRun :description "added by hand, think this is right"}              
+    :name {:type :string},
+    :bucketName {:type :string},
+    :contentEncoding {:type :string},
+    :contentLanguage {:type :string},
+    :contentType {:type :string},
+    :size {:type :string},
+    :timeCreated {:type :instant}}},
+  :Agent
+  {:reference? true
+   :fields
+   {:is_suspended {:type :boolean},
+    :path_to_service_account {:type :string},
+    :credentials_version {:type :string},
+    :action_options {:type :AgentOptions},
+    :is_archived {:type :boolean},
+    :history {:type :HistoryEntry, :cardinality :many},
+    :trigger_options {:type :TriggerFlowParams},
+    :earliest_credentials_version {:type :string},
+    :id {:type :string},
+    :agent_ref {:type :string},
+    :action {:type :string},
+    :connections {:type :Connection, :cardinality :many},
+    :trigger {:type :string},
+    :display_name {:type :string}}},
+  :TriggerFlowParams
+  {:description "by hand"
+   :fields {:flow {:type :Flow}
+            :params {:type :string :cardinality :many}}}
+  :DagRunBody
+  {:fields {:dagRunId {:type :FlowRun}, :userUid {:type :string}}},
+  :TaskInstance
+  {:fields
+   {:queued_when {:type :string},
+    :sla_miss {},
+    :pool_slots {:type :number},
+    :pool {:type :string},
+    :queue {:type :string},
+    :duration {:type :number},
+    :state {:type :string},
+    :hostname {:type :string},
+    :dag_run_id {:type :FlowRun},       ;???
+    :dag_id {:type :string},
+    :pid {:type :number},
+    :end_date {:type :instant},
+    :start_date {:type :instant},
+    :rendered_fields {},
+    :task_id {:type :string},
+    :unixname {:type :string},
+    :operator {:type :string},
+    :map_index {:type :number},
+    :max_tries {:type :number},
+    :executor_config {:type :string},
+    :execution_date {:type :string},
+    :try_number {:type :number},
+    :priority_weight {:type :number}}}}
+ :enums
+ {:BucketType {:values {:INPUT "Input"
+                        :RESULTS "Results"}}
+  :InitiatorType {:values
+                  {:USER  "User",
+                   :EVENT  "Event",
+                   :AGENT  "Agent",
+                   :FLOW  "Flow",
+                   }
+  
+                  }}
+ :categories
+ {:default {:color "#a9cce3"
+            }}
+ }
+ 

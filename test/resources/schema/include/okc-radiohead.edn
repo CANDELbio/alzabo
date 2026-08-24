@@ -1,0 +1,16 @@
+{:version "2.0"
+ :include ["./okc-basic.edn"] ; relative path
+ :kinds
+ {:subject
+  {:fields
+   {
+    :age {:type :number :doc "Age in years"}
+    :diagnosis {:type :string}
+   }}
+  :sample
+  {:fields
+   {:collection_point {:type :string}}}
+  :illness
+  {:fields {:name {:type :string} }}
+  }
+ }

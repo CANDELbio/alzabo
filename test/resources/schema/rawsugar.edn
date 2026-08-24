@@ -3,27 +3,27 @@
  {:project
   {:fields
    {:name {:type :string
-           :unique :identity} 
+           :unique? :identity} 
     :sheet {:type :sheet
-            :component true
+            :component? true
             :cardinality :many}
     :files {:type :file
-            :component true
+            :component? true
             :cardinality :many}
     :history {:type :operation
-              :component true
+              :component? true
               :cardinality :many}}}
   :sheet
   {:fields
    {:name {:type :string}
     :file {:type :file  
-           :component true
+           :component? true
            :cardinality :many}
     :columns {:type :column
-              :component true
+              :component? true
               :cardinality :many}
     :rows {:type :row
-           :component true
+           :component? true
            :cardinality :many}
     :rowtype {:type :keyword}
     }}
@@ -33,14 +33,14 @@
     :type {:type :keyword}}}
   :row
   {:fields {:cells {:type :cell
-                    :component true
+                    :component? true
                     :cardinality :many}
             :files {:type :file
                     :cardinality :many}
             }}
   :cell
   {:fields {:column {:type :column
-                     :required true}
+                     :required? true}
             :value_string {:type :string }
             :value_long {:type :long}
             :value_float {:type :float}
@@ -52,7 +52,7 @@
   {:fields
    {:pathname {:type :string}            
     :extension {:type :string}
-    :location {:type :string :unique :identity} 
+    :location {:type :string :unique? :identity} 
     :hash {:type :string}                  
     }}
   :operation

@@ -1,0 +1,48 @@
+{:title "Inheritance Demonstration Schema"
+ :version "1.0.0"
+ :kinds
+ {:entity
+  {:doc "Base entity with common fields"
+   :fields
+   {:id {:type :long
+         :doc "Unique identifier"
+         :unique? true}
+    :name {:type :string
+           :doc "Entity name"}}}
+
+  :timestamped
+  {:doc "Mixin for entities with timestamps"
+   :fields
+   {:created-at {:type :instant
+                 :doc "Creation timestamp"}
+    :updated-at {:type :instant
+                 :doc "Last update timestamp"}}}
+
+  :document
+  {:doc "Extends entity and timestamped - demonstrates multiple inheritance"
+   :extends [:entity :timestamped]
+   :fields
+   {:content {:type :string
+              :doc "Document content"}
+    :author {:type :person
+             :doc "Document author"}}}
+
+  :person
+  {:doc "Extends entity - demonstrates single inheritance"
+   :extends :entity
+   :fields
+   {:email {:type :string
+            :doc "Email address"
+            :unique? true}
+    :documents {:type :document
+                :cardinality :many
+                :doc "Documents authored by this person"}}}
+
+  :versioned-document
+  {:doc "Extends document - demonstrates multi-level inheritance (inherits from document, entity, and timestamped)"
+   :extends :document
+   :fields
+   {:version {:type :long
+              :doc "Document version number"}
+    :previous-version {:type :versioned-document
+                       :doc "Link to previous version"}}}}}

@@ -1,0 +1,534 @@
+{
+ :kinds
+ {
+  :cell-type 
+  {:description "Represents a cell type entity, typically using the Cell Ontology (CL) for reference."
+   },
+  :therapy 
+  {:description "A record representing a therapy administered to a subject, including regimen and evaluability."
+   },
+  :measurement-set 
+  {:description "A collection that groups related measurement records, typically linked via an assay."
+   },
+  :clinical-trial 
+  {:description "Clinical trial registration and description, referenced with NCT number and aliases."
+   },
+  :measurement-matrix 
+  {:description "Represents a matrix or file of measurement values, e.g., an expression matrix."
+   },
+  :nanostring-signature 
+  {:description "A reference to a named nanostring gene expression signature."
+   },
+  :variant 
+  {:description "Describes a genomic variant, with associated consequences, frequencies, and links to features."
+   },
+  :gene-product 
+  {:description "Represents a specific gene product such as an mRNA or protein isoform."
+   },
+  :genomic-coordinate 
+  {:description "Identifies a specific contiguous genomic region on a particular assembly."
+   },
+  :cnv 
+  {:description "Copy Number Variation segment, referencing genomic location and contained genes."
+   },
+  :so-sequence-feature 
+  {:description "Defines a functional sequence feature as per the Sequence Ontology."
+   },
+  :otu 
+  {:description "An Operational Taxonomic Unit (OTU), representing a microbial grouping for metagenomics."
+   },
+  :comorbidity 
+  {:description "Represents a comorbid condition or disease present alongside the primary diagnosis."
+   },
+  :study-day 
+  {:description "A day relative to a defined study reference event (e.g., enrollment)."
+   },
+  :tcr 
+  {:description "A unique T-cell receptor (TCR) sequence entity, optionally with both alpha and beta chains."
+   },
+  :clinical-observation-set 
+  {:description "A group of clinical observations, typically for a single subject or within a cohort."
+   },
+  :gdc-anatomic-site 
+  {:description "An anatomic site as defined in the Genomics Data Commons (GDC) vocabulary."
+   },
+  :single-cell 
+  {:description "Entity representing a single cell, with image coordinates as may be found in microscopy data."
+   },
+  :sample 
+  {:description "A biological specimen sample, ranging from solid tissue to biofluids."
+   },
+  :measurement 
+  {:description "Quantitative or qualitative measurement performed on biological samples."
+   },
+  :treatment-regimen 
+  {:description "Specification of a full treatment plan or course, including constituent drugs and timing."
+   },
+  :epitope 
+  {:description "A protein region (epitope) used, e.g., as a marker or antibody target."
+   },
+  :gene 
+  {:description "A human gene, referenced via HGNC symbol and cross-references to major databases."
+   },
+  :protein 
+  {:description "A specific protein including synonyms and cross-references, typically UniProt-based."
+   },
+  :timepoint 
+  {:description "A discrete timepoint in a study or therapy, e.g., baseline or post-treatment."
+   },
+  :drug-regimen 
+  {:description "A specification of a single drug’s use within a treatment regimen."
+   },
+  :cell-population 
+  {:description "A defined population of cells, e.g., as determined by phenotype or clustering."
+   },
+  :drug 
+  {:description "A pharmaceutical compound, drug, or active moiety."
+   },
+  :meddra-disease 
+  {:description "A disease definition as per the MedDRA classification vocabulary."
+   },
+  :chr-acc-reg 
+  {:description "A chromatin accessible region, specified by genomic coordinates."
+   },
+  :clinical-observation 
+  {:description "Discrete clinical data point measured/recorded for a subject (e.g., BMI, survival, tumor burden)."
+   },
+  :adverse-event 
+  {:description "An adverse event (AE) report for a subject, as observed in a clinical study."
+   },
+  :subject 
+  {:description "A participant (patient or animal) in a study or clinical dataset."
+   },
+  :atac-peak 
+  {:description "A chromatin peak called from ATAC-seq experiments, with location and score attributes."
+   },
+  :assay 
+  {:description "An experimental assay (e.g., RNA-seq, flow cytometry) performed within a dataset."
+   },
+  :dataset 
+  {:description "A complete dataset record encompassing all measurements, samples, and treatments for a study."
+   },
+  :neo-antigen 
+  {:description "A predicted or validated neo-antigen peptide arising from a variant."
+   }
+  },
+
+ :enums
+ {:candel {:values #:candel{:schema "schema"}},
+  :clinical-observation.bor
+  {:values
+   #:clinical-observation.bor 
+   {                               :PR          "Partial Response."
+    :PR-unconfirmed  "Unconfirmed Partial Response."
+    :PR-confirmed    "Confirmed Partial Response."
+    :SD          "Stable Disease."
+    :CR          "Complete Response."
+    :PD          "Progressive Disease."
+    :NE          "Not Evaluable."
+    }
+   },
+  :variant.feature
+  {
+   :doc "Feature type for genomic variants."
+   :values #:variant.feature{
+                             :transcript  "A transcript region."
+                             :regulatory  "A regulatory feature region."
+                             :motif       "A nucleotide or protein motif."
+                             }
+   },
+  :assay.technology {
+                     :doc "Enumerates the supported assay experimental technologies."
+                     :values #:assay.technology{
+                                                :qPCR                     "Quantitative PCR."
+                                                :WGS                      "Whole Genome Sequencing."
+                                                :DNA-seq                  "DNA sequencing, unspecified type."
+                                                :TCR-seq                  "T-cell receptor sequencing."
+                                                :flow-cytometry           "Flow cytometry assay technology."
+                                                :IHC                      "Immunohistochemistry."
+                                                :autoantibody-array       "Autoantibody profiling array."
+                                                :miscellaneous            "Other or miscellaneous assay type."
+                                                :IMC                      "Imaging Mass Cytometry."
+                                                :rRNA-16S-sequencing      "16S ribosomal RNA sequencing (microbiome analysis)."
+                                                :expression-array         "Gene expression array (e.g., Affymetrix, Illumina)."
+                                                :CODEX                    "CODEX multiplexed imaging."
+                                                :RNA-seq                  "RNA sequencing assay."
+                                                :WES                      "Whole Exome Sequencing."
+                                                :dPCR                     "Digital PCR."
+                                                :IF                       "Immunofluorescence."
+                                                :nanostring               "NanoString nCounter gene expression profiling."
+                                                :PCR                      "Standard PCR."
+                                                :ELISA                    "ELISA (Enzyme-linked immunosorbent assay)."
+                                                :foundation-targeted-panel  "Foundation Medicine targeted panel."
+                                                :mass-cytometry           "Mass cytometry (CyTOF)."
+                                                :autoantibody-targeted-panel  "Autoantibody targeted panel."
+                                                :vectra                   "Vectra multiplexed immunofluorescence imaging."
+                                                :SNP-array                "SNP array genotyping."
+                                                :MIBI                     "Multiplexed ion beam imaging (MIBI)."
+                                                :luminex                  "Luminex bead-based multiplex assay."
+                                                :olink                    "Olink proximity extension protein assay."
+                                                :impact-targeted-panel    "Memorial Sloan Kettering IMPACT targeted sequencing panel."
+                                                :ATAC-seq                 "ATAC sequencing for chromatin accessibility."
+                                                }
+                     },
+  :analysis.type {
+                  :doc "The type of analysis performed."
+                  :values #:analysis.type{
+                                          :diff-expression      "Differential expression analysis."
+                                          :diff-methylation    "Differential methylation analysis."
+                                          :pathway-enrichment  "Pathway enrichment analysis."
+                                          :geneset-enrichment  "Gene set enrichment analysis."
+                                          :clustering          "Clustering of high-dimensional data."
+                                          }
+                  },
+  :timepoint.type {
+                   :doc "Defines the type of study timepoint."
+                   :values #:timepoint.type{
+                                            :baseline         "Baseline/pretreatment timepoint."
+                                            :tumor-assessment  "Tumor assessment timepoint."
+                                            :surgery          "Surgical intervention timepoint."
+                                            :follow-up        "Follow-up assessment timepoint."
+                                            :eos              "End of study."
+                                            :eot              "End of treatment."
+                                            :on-treatment     "On-treatment evaluation."
+                                            :diagnosis        "Diagnostic timepoint."
+                                            }
+                   },
+  :sample.container {
+                     :doc "Enumerates the types of containers used for biospecimen collection."
+                     :values #:sample.container{
+                                                :omnigene-gut-tube     "OMNIgene Gut fecal sample tube."
+                                                :sodium-citrate-tube   "Sodium citrate blood collection tube."
+                                                :paxgene-blood-dna-tube  "PAXgene Blood DNA tube."
+                                                :paxgene-blood-rna-tube  "PAXgene Blood RNA tube."
+                                                :cpt-tube               "Cell Preparation Tube (CPT)."
+                                                :red-top-serum-tube     "Red top serum blood collection tube."
+                                                :streck-dna-tube        "Streck cell-free DNA tube."
+                                                :sodium-hep-tube        "Sodium heparin tube."
+                                                :sodium-edta-tube       "Sodium EDTA blood collection tube."
+                                                :potassium-edta-tube    "Potassium EDTA tube."
+                                                :gold-top-serum-tube    "Gold top serum separator tube."
+                                                }
+                     },
+  :clinical-observation.ir-recist {
+                                   :doc "Immune-related RECIST scores for solid tumor immune therapy response."
+                                   :values #:clinical-observation.ir-recist{
+                                                                            :irCR  "Immune-related complete response."
+                                                                            :irPR  "Immune-related partial response."
+                                                                            :irSD  "Immune-related stable disease."
+                                                                            :irNN  "Immune-related non-evaluable, not applicable."
+                                                                            :irPD  "Immune-related progressive disease."
+                                                                            :irNE  "Immune-related not evaluable (NE)."
+                                                                            :irND  "Immune-related no data (ND)."
+                                                                            }
+                                   },
+  :subject.smoker {
+                   :doc "Enumerated subject smoking status."
+                   :values #:subject.smoker{
+                                            :former  "Former smoker."
+                                            :current  "Current smoker."
+                                            :never  "Never smoker."
+                                            }
+                   },
+  :subject.race {
+                 :doc "Subject's self-reported race."
+                 :values #:subject.race{
+                                        :white              "White/Caucasian race."
+                                        :am-indian-ak-native  "American Indian or Alaska Native."
+                                        :african-american     "African-American or Black."
+                                        :asian                "Asian."
+                                        :hi-pacific           "Native Hawaiian or other Pacific Islander."
+                                        :other                "Other or not specified."
+                                        }
+                 },
+  :sample.laterality
+  {
+   :doc "Laterality of sample (in paired organs)."
+   :values #:sample.laterality{
+                               :bilateral     "Sample from both sides (bilateral)."
+                               :left          "Sample from left side."
+                               :right         "Sample from right side."
+                               :unknown       "Sample laterality unknown."
+                               :not-reported  "Laterality not reported."
+                               }
+   },
+  :clinical-observation.rano
+  {
+   :doc "RANO (Response Assessment in Neuro-Oncology) categories."
+   :values #:clinical-observation.rano{
+                                       :PR    "Partial response."
+                                       :SD    "Stable disease."
+                                       :CR    "Complete response."
+                                       :PD    "Progressive disease."
+                                       :NE    "Not evaluable."
+                                       }
+   },
+  :clinical-observation.event-reason
+  {
+   :doc "Reasons for survival event/censoring in clinical observations."
+   :values #:clinical-observation.event-reason{
+                                               :withdrew-from-study  "Subject withdrew from study."
+                                               :event-unknown  "Event status unknown."
+                                               :censored-unknown  "Censored for unknown reason."
+                                               :progressed  "Disease progression event."
+                                               :new-lesion  "Development of a new lesion."
+                                               :censored-switched-therapy  "Censored due to therapy switch."
+                                               :censored-study-period-ended  "Censored as study duration ended."
+                                               :censored-lost-to-follow-up  "Censored due to loss to follow-up."
+                                               :censored-study-period-incomplete  "Censored due to incomplete study period."
+                                               :dead  "Death event occurred."
+                                               }
+   },
+  :subject.sex
+  {
+   :doc "Sex assigned at birth for the subject."
+   :values #:subject.sex{
+                         :female  "Female subject."
+                         :male  "Male subject."
+                         :unknown  "Sex unknown or not reported."
+                         }
+   },
+  :subject.cause-of-death
+  {
+   :doc "Cause of subject's death."
+   :values #:subject.cause-of-death{
+                                    :related-to-cancer  "Death related to cancer."
+                                    :unrelated-to-cancer  "Death unrelated to cancer."
+                                    }
+   },
+  :variant.impact
+  {
+   :doc "Variant functional impact classification."
+   :values #:variant.impact{
+                            :high       "High predicted impact on function."
+                            :moderate   "Moderate impact."
+                            :low        "Low impact."
+                            :modifier   "Modifier or modifier-class variant."
+                            }
+   },
+  :treatment-regimen.setting
+  {
+   :doc "Clinical setting for a treatment regimen."
+   :values #:treatment-regimen.setting{
+                                       :neoadjuvant  "Neoadjuvant (pre-surgical) setting."
+                                       :adjuvant     "Adjuvant (post-surgical) setting."
+                                       :palliative   "Palliative care (symptom management)."
+                                       }
+   },
+  :measurement.cnv-call
+  {
+   :doc "Copy number variant overall call."
+   :values #:measurement.cnv-call{
+                                  :amplified  "Copy number amplified segment."
+                                  :neutral    "Copy number neutral segment."
+                                  :reduced    "Copy number reduction segment."
+                                  }
+   },
+  :clinical-observation.disease-stage
+  {
+   :doc "Enumerates clinical disease/tumor stage."
+   :values #:clinical-observation.disease-stage{
+                                                :iiiD  "Stage III D."
+                                                :iC  "Stage I C."
+                                                :iA  "Stage I A."
+                                                :iiA1  "Stage II A1."
+                                                :iB2  "Stage I B2."
+                                                :ivC  "Stage IV C."
+                                                :iiA2  "Stage II A2."
+                                                :iiiA  "Stage III A."
+                                                :ivA  "Stage IV A."
+                                                :zero  "Stage 0 (zero)."
+                                                :zeroIS  "In situ Stage 0 (IS)."
+                                                :i  "Stage I."
+                                                :iA2  "Stage I A2."
+                                                :iB1  "Stage I B1."
+                                                :iA1  "Stage I A1."
+                                                :iiA  "Stage II A."
+                                                :ivB  "Stage IV B."
+                                                :ii  "Stage II."
+                                                :zeroA  "Stage 0 A."
+                                                :iB  "Stage I B."
+                                                :iiB  "Stage II B."
+                                                :iiiC1  "Stage III C1."
+                                                :iiiC2  "Stage III C2."
+                                                :iiiB  "Stage III B."
+                                                :iv  "Stage IV."
+                                                :iiiC  "Stage III C."
+                                                :iiC  "Stage II C."
+                                                :iii  "Stage III."
+                                                }
+   },
+  :subject.ethnicity {
+                      :doc "Subject self-reported ethnicity."
+                      :values #:subject.ethnicity{
+                                                  :hispanic      "Subject identifies as hispanic or latino/a."
+                                                  :not-hispanic  "Subject identifies as not hispanic or latino/a."
+                                                  }
+                      },
+  :sample.tissue-acquisition-method
+  {
+   :doc "Method by which tissue sample was acquired."
+   :values #:sample.tissue-acquisition-method{
+                                              :surgical-resection  "Sample obtained by full surgical resection."
+                                              :surgical-biopsy     "Sample obtained by surgical biopsy."
+                                              :us-guided-biopsy    "Ultrasound-guided biopsy."
+                                              :ct-guided-biopsy    "CT-guided biopsy."
+                                              }
+   },
+  :clinical-observation.recist {
+                                :doc "RECIST categories for clinical tumor response."
+                                :values #:clinical-observation.recist{
+                                                                      :PR  "Partial response."
+                                                                      :PD  "Progressive disease."
+                                                                      :SD  "Stable disease."
+                                                                      :CR  "Complete response."
+                                                                      :MR  "Minimal response."
+                                                                      :NE  "Not evaluable."
+                                                                      }
+                                },
+  :genomic-coordinate.assembly
+  {
+   :doc "Genome reference assembly."
+   :values #:genomic-coordinate.assembly{
+                                         :GRCh37  "Genome Reference Consortium Human (GRCh37)."
+                                         :GRCh38  "Genome Reference Consortium Human (GRCh38)."
+                                         :NCBI36  "NCBI build 36."
+                                         :NCBI35  "NCBI build 35."
+                                         :NCBI34  "NCBI build 34."
+                                         }
+   },
+  :adverse-event.ctcae-grade
+  {
+   :doc "Adverse event grades per CTCAE v5."
+   :values #:adverse-event.ctcae-grade{
+                                       :i    "Grade 1 (mild)."
+                                       :ii   "Grade 2 (moderate)."
+                                       :iii  "Grade 3 (severe)."
+                                       :iv   "Grade 4 (life-threatening)."
+                                       :v    "Grade 5 (death)."
+                                       }
+   },
+  :measurement.msi-status
+  {
+   :doc "Microsatellite instability status."
+   :values #:measurement.msi-status{
+                                    :stable  "Microsatellite stable (MSS)."
+                                    :msi-l   "Microsatellite instability – low (MSI-L)."
+                                    :msi-h   "Microsatellite instability – high (MSI-H)."
+                                    }
+   },
+  :study-day.reference-event
+  {
+   :doc "Reference event for study-relative day."
+   :values #:study-day.reference-event{
+                                       :enrollment  "Day of enrollment in the study."
+                                       :diagnosis   "Day of diagnosis."
+                                       :surgery     "Date of surgery."
+                                       }
+   },
+  :sample.specimen
+  {
+   :doc "Sample specimen types."
+   :values #:sample.specimen{
+                             :fresh-frozen  "Flash frozen tissue specimen."
+                             :cell-line     "In vitro cell line."
+                             :serum         "Serum specimen."
+                             :xenograft     "Xenograft tissue specimen."
+                             :plasma        "Plasma specimen."
+                             :pbmc          "Peripheral blood mononuclear cells."
+                             :ffpe          "Formalin-Fixed Paraffin-Embedded tissue specimen."
+                             :stool         "Stool (fecal) specimen."
+                             :whole-blood   "Whole blood specimen."
+                             }
+   },
+  :variant.classification
+  {
+   :doc "Functional classification of genomic variants."
+   :values #:variant.classification
+   {
+    :flank5               "5' flanking sequence."
+    :UTR5                 "5' untranslated region."
+    :splice-site          "Splice site mutation."
+    :IGR                  "Intergenic region."
+    :nonstop              "Nonstop mutation."
+    :missense             "Missense (amino acid changing) mutation."
+    :flank3               "3' flanking sequence."
+    :frame-shift-del      "Frame-shift deletion."
+    :intron               "Intronic variant."
+    :RNA                  "RNA variant."
+    :nonsense             "Nonsense (stop-gain) mutation."
+    :targeted-region      "Within targeted region for sequencing."
+    :in-frame-del         "In-frame deletion."
+    :in-frame-ins         "In-frame insertion."
+    :silent               "Silent (synonymous) variant."
+    :transl-start-site    "Translation start site variant."
+    :splice-region        "Splice region variant."
+    :frame-shift-ins      "Frame-shift insertion."
+    :UTR3                 "3' untranslated region."
+    }
+   },
+  :sample.type {
+                :doc "Type of biological sample."
+                :values #:sample.type{
+                                      :tumor         "Tumor tissue sample."
+                                      :normal        "Normal tissue sample."
+                                      :abnormal      "Abnormal (pathologic) non-tumor sample."
+                                      :peritumoral   "Sample adjacent to tumor."
+                                      :unknown       "Sample type unknown."
+                                      :not-reported  "Sample type not reported."
+                                      }
+                },
+  :gene.hgnc-locus-group {
+                          :doc "Gene locus group categories from HGNC.",
+                          :values #:gene.hgnc-locus-group{
+                                                          :protein-coding-gene  "Protein-coding gene."
+                                                          :non-coding-rna       "Non-coding RNA gene."
+                                                          :pseudogene           "Pseudogene."
+                                                          :withdrawn            "Withdrawn locus."
+                                                          :other                "Other type of locus group."
+                                                          :phenotype            "Gene associated with phenotype only."
+                                                          }
+                          },
+  :therapy.previous {
+                     :doc "The type of previous therapy exposure for a subject.",
+                     :values #:therapy.previous{
+                                                :naive              "No prior therapy (treatment-naive)."
+                                                :radiation          "Prior radiation therapy."
+                                                :pd1-pdl1           "Prior anti-PD-1 or anti-PD-L1 therapy."
+                                                :ctla4              "Prior anti-CTLA4 therapy."
+                                                :surgery            "Prior surgery."
+                                                :targeted-therapy   "Prior targeted therapy (e.g. kinase inhibitor)."
+                                                :chemotherapy       "Prior chemotherapy."
+                                                :treated            "General prior therapy (undefined)."
+                                                :car-t              "Prior CAR-T cell therapy."
+                                                }
+                     },
+  :variant.type {
+                 :doc "The type of sequence variant observed.",
+                 :values #:variant.type{
+                                        :ins          "Insertion."
+                                        :del          "Deletion."
+                                        :snp          "Single Nucleotide Polymorphism."
+                                        :dnp          "Double Nucleotide Polymorphism."
+                                        :tnp          "Triple Nucleotide Polymorphism."
+                                        :onp          "Oligonucleotide Polymorphism."
+                                        :consolidated  "Consolidated variant call."
+                                        :indel        "Indel (insertion or deletion)."
+                                        }
+                 },
+  :adverse-event.ae-causality {
+                               :doc "Causality attribution for adverse events.",
+                               :values #:adverse-event.ae-causality{
+                                                                    :related       "AE is causally related to drug/therapy."
+                                                                    :not-related   "AE is not causally related to drug/therapy."
+                                                                    }
+                               },
+  :molecule {
+             :doc "The major molecule/entity type.",
+             :values #:molecule{
+                                :gene     "Gene molecule."
+                                :protein  "Protein molecule."
+                                }
+             }
+  }
+ }

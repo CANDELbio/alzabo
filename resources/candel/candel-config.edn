@@ -1,0 +1,7 @@
+;;; This is config for generating CANDEL docs from source (Datomic/metabodel).
+
+{:source :candel
+ :candel-schema-path "."  
+ :output-path "resources/public/schema/candel/" ; {{version}}
+ :edge-labels? false
+ }
